@@ -2,14 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "certificates_AzureClassicRunAsCertificate_base64Value": {
-            "defaultValue": null,
-            "type": "SecureString"
-        },
-        "certificates_AzureRunAsCertificate_base64Value": {
-            "defaultValue": null,
-            "type": "SecureString"
-        },
         "extensions_Microsoft.Insights.VMDiagnosticsSettings_storageAccountName": {
             "defaultValue": null,
             "type": "SecureString"
@@ -174,16 +166,6 @@
     "variables": {},
     "resources": [
         {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount'.",
-            "type": "Microsoft.Automation/automationAccounts",
-            "name": "[parameters('automationAccounts_frbouterndvaccount_name')]",
-            "apiVersion": "2015-10-31",
-            "location": "westeurope",
-            "scale": null,
-            "properties": {},
-            "dependsOn": []
-        },
-        {
             "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Compute/virtualMachines/ndvoracledb'.",
             "type": "Microsoft.Compute/virtualMachines",
             "name": "[parameters('virtualMachines_ndvoracledb_name')]",
@@ -257,15 +239,10 @@
             "location": "westeurope",
             "scale": null,
             "properties": {
-                "provisioningState": "Succeeded",
-                "resourceGuid": "a3fa0dbb-65d4-41bb-babf-44910873106a",
                 "ipConfigurations": [
                     {
                         "name": "ipconfig1",
-                        "etag": "W/\"6030976c-eb6a-4e90-81a7-7797512a9e6f\"",
                         "properties": {
-                            "provisioningState": "Succeeded",
-                            "privateIPAddress": "10.1.1.4",
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ndvoracledb_ip_name'))]"
@@ -278,27 +255,17 @@
                         }
                     }
                 ],
-                "dnsSettings": {
-                    "dnsServers": [],
-                    "appliedDnsServers": [],
-                    "internalDomainNameSuffix": "gj5woohj2r3uharnnkgwkxfnfa.ax.internal.cloudapp.net"
-                },
-                "macAddress": "00-0D-3A-2D-34-F5",
                 "enableAcceleratedNetworking": false,
                 "enableIPForwarding": false,
                 "networkSecurityGroup": {
                     "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ndvoracledb_nsg_name'))]"
                 },
-                "primary": true,
-                "virtualMachine": {
-                    "id": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_ndvoracledb_name'))]"
-                }
+                "primary": true
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ndvoracledb_ip_name'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_ndvworkshop_vnet_name'), parameters('subnets_default_name'))]",
-                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ndvoracledb_nsg_name'))]",
-                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_ndvoracledb_name'))]"
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ndvoracledb_nsg_name'))]"
             ]
         },
         {
@@ -309,15 +276,11 @@
             "location": "westeurope",
             "scale": null,
             "properties": {
-                "provisioningState": "Succeeded",
-                "resourceGuid": "ce21beac-5b08-4637-b157-0b0c8cbca831",
                 "securityRules": [
                     {
                         "name": "default-allow-ssh",
-                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
                         "properties": {
-                            "provisioningState": "Succeeded",
-                            "protocol": "TCP",
+                            "protocol": "Tcp",
                             "sourcePortRange": "*",
                             "destinationPortRange": "22",
                             "sourceAddressPrefix": "*",
@@ -335,9 +298,7 @@
                 "defaultSecurityRules": [
                     {
                         "name": "AllowVnetInBound",
-                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
                         "properties": {
-                            "provisioningState": "Succeeded",
                             "description": "Allow inbound traffic from all VMs in VNET",
                             "protocol": "*",
                             "sourcePortRange": "*",
@@ -355,7 +316,6 @@
                     },
                     {
                         "name": "AllowAzureLoadBalancerInBound",
-                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
                         "properties": {
                             "provisioningState": "Succeeded",
                             "description": "Allow inbound traffic from azure load balancer",
@@ -375,7 +335,6 @@
                     },
                     {
                         "name": "DenyAllInBound",
-                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
                         "properties": {
                             "provisioningState": "Succeeded",
                             "description": "Deny all inbound traffic",
@@ -395,7 +354,6 @@
                     },
                     {
                         "name": "AllowVnetOutBound",
-                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
                         "properties": {
                             "provisioningState": "Succeeded",
                             "description": "Allow outbound traffic from all VMs to all VMs in VNET",
@@ -415,7 +373,6 @@
                     },
                     {
                         "name": "AllowInternetOutBound",
-                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
                         "properties": {
                             "provisioningState": "Succeeded",
                             "description": "Allow outbound traffic from all VMs to Internet",
@@ -435,7 +392,6 @@
                     },
                     {
                         "name": "DenyAllOutBound",
-                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
                         "properties": {
                             "provisioningState": "Succeeded",
                             "description": "Deny all outbound traffic",
@@ -469,9 +425,6 @@
             "location": "westeurope",
             "scale": null,
             "properties": {
-                "provisioningState": "Succeeded",
-                "resourceGuid": "e98c07dd-aaf5-4639-a47c-d452e9423843",
-                "ipAddress": "137.117.215.151",
                 "publicIPAddressVersion": "IPv4",
                 "publicIPAllocationMethod": "Dynamic",
                 "idleTimeoutInMinutes": 4,
@@ -487,8 +440,6 @@
             "location": "westeurope",
             "scale": null,
             "properties": {
-                "provisioningState": "Succeeded",
-                "resourceGuid": "38677f32-e4e9-437b-822d-6a8d655cad28",
                 "addressSpace": {
                     "addressPrefixes": [
                         "10.1.1.0/24"
@@ -497,9 +448,7 @@
                 "subnets": [
                     {
                         "name": "default",
-                        "etag": "W/\"b003320b-22e8-48d6-a919-18009c3ac406\"",
                         "properties": {
-                            "provisioningState": "Succeeded",
                             "addressPrefix": "10.1.1.0/25"
                         }
                     }
@@ -544,442 +493,6 @@
                 }
             },
             "dependsOn": []
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/certificates/AzureClassicRunAsCertificate'.",
-            "type": "Microsoft.Automation/automationAccounts/certificates",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('certificates_AzureClassicRunAsCertificate_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "description": "This certificate is used to authenticate with Azure so that you can manage Azure classic resources from runbooks. For details on this certificate, or to manage it, go to this account’s Settings.  For example usage, see the tutorial runbook in this account.",
-                "isExportable": false,
-                "thumbprint": "0120EA6F45626A4D6E3552FECCDC7E8F2499D3BB",
-                "base64Value": "[parameters('certificates_AzureClassicRunAsCertificate_base64Value')]"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/certificates/AzureRunAsCertificate'.",
-            "type": "Microsoft.Automation/automationAccounts/certificates",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('certificates_AzureRunAsCertificate_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "description": "This certificate is used to authenticate with the service principal that was automatically created for this account. For details on this service principal and certificate, or to recreate them, go to this account’s Settings. For example usage, see the tutorial runbook in this account.",
-                "isExportable": true,
-                "thumbprint": "1EF3555BC69A315B07B833E3373F82519122C17D",
-                "base64Value": "[parameters('certificates_AzureRunAsCertificate_base64Value')]"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/connections/AzureClassicRunAsConnection'.",
-            "type": "Microsoft.Automation/automationAccounts/connections",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('connections_AzureClassicRunAsConnection_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "description": null,
-                "fieldDefinitionValues": null,
-                "connectionType": {
-                    "name": "AzureClassicCertificate"
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/connections/AzureRunAsConnection'.",
-            "type": "Microsoft.Automation/automationAccounts/connections",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('connections_AzureRunAsConnection_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "description": null,
-                "fieldDefinitionValues": null,
-                "connectionType": {
-                    "name": "AzureServicePrincipal"
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/connectionTypes/Azure'.",
-            "type": "Microsoft.Automation/automationAccounts/connectionTypes",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('connectionTypes_Azure_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "isGlobal": true,
-                "fieldDefinitions": {
-                    "AutomationCertificateName": {
-                        "isEncrypted": false,
-                        "isOptional": false,
-                        "type": "System.String"
-                    },
-                    "SubscriptionID": {
-                        "isEncrypted": false,
-                        "isOptional": false,
-                        "type": "System.String"
-                    }
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/connectionTypes/AzureClassicCertificate'.",
-            "type": "Microsoft.Automation/automationAccounts/connectionTypes",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('connectionTypes_AzureClassicCertificate_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "isGlobal": true,
-                "fieldDefinitions": {
-                    "SubscriptionName": {
-                        "isEncrypted": false,
-                        "isOptional": false,
-                        "type": "System.String"
-                    },
-                    "SubscriptionId": {
-                        "isEncrypted": false,
-                        "isOptional": false,
-                        "type": "System.String"
-                    },
-                    "CertificateAssetName": {
-                        "isEncrypted": false,
-                        "isOptional": false,
-                        "type": "System.String"
-                    }
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/connectionTypes/AzureServicePrincipal'.",
-            "type": "Microsoft.Automation/automationAccounts/connectionTypes",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('connectionTypes_AzureServicePrincipal_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "isGlobal": true,
-                "fieldDefinitions": {
-                    "ApplicationId": {
-                        "isEncrypted": false,
-                        "isOptional": false,
-                        "type": "System.String"
-                    },
-                    "TenantId": {
-                        "isEncrypted": false,
-                        "isOptional": false,
-                        "type": "System.String"
-                    },
-                    "CertificateThumbprint": {
-                        "isEncrypted": false,
-                        "isOptional": false,
-                        "type": "System.String"
-                    },
-                    "SubscriptionId": {
-                        "isEncrypted": false,
-                        "isOptional": false,
-                        "type": "System.String"
-                    }
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Azure'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Azure_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Azure.Storage'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Azure.Storage_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/AzureRM.Automation'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_AzureRM.Automation_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/AzureRM.Compute'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_AzureRM.Compute_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/AzureRM.Profile'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_AzureRM.Profile_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/AzureRM.Resources'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_AzureRM.Resources_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/AzureRM.Sql'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_AzureRM.Sql_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/AzureRM.Storage'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_AzureRM.Storage_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Microsoft.PowerShell.Core'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Microsoft.PowerShell.Core_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Microsoft.PowerShell.Diagnostics'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Microsoft.PowerShell.Diagnostics_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Microsoft.PowerShell.Management'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Microsoft.PowerShell.Management_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Microsoft.PowerShell.Security'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Microsoft.PowerShell.Security_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Microsoft.PowerShell.Utility'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Microsoft.PowerShell.Utility_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Microsoft.WSMan.Management'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Microsoft.WSMan.Management_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Orchestrator.AssetManagement.Cmdlets'.",
-            "type": "Microsoft.Automation/automationAccounts/modules",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Orchestrator.AssetManagement.Cmdlets_name'))]",
-            "apiVersion": "2015-10-31",
-            "scale": null,
-            "properties": {
-                "contentLink": {}
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/runbooks/AzureAutomationTutorial'.",
-            "type": "Microsoft.Automation/automationAccounts/runbooks",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('runbooks_AzureAutomationTutorial_name'))]",
-            "apiVersion": "2015-10-31",
-            "location": "westeurope",
-            "scale": null,
-            "properties": {
-                "runbookType": "GraphPowerShell",
-                "logVerbose": false,
-                "logProgress": false,
-                "logActivityTrace": 0
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/runbooks/AzureAutomationTutorialPython2'.",
-            "type": "Microsoft.Automation/automationAccounts/runbooks",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('runbooks_AzureAutomationTutorialPython2_name'))]",
-            "apiVersion": "2015-10-31",
-            "location": "westeurope",
-            "scale": null,
-            "properties": {
-                "runbookType": "Python2",
-                "logVerbose": false,
-                "logProgress": false,
-                "logActivityTrace": 0
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/runbooks/AzureAutomationTutorialScript'.",
-            "type": "Microsoft.Automation/automationAccounts/runbooks",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('runbooks_AzureAutomationTutorialScript_name'))]",
-            "apiVersion": "2015-10-31",
-            "location": "westeurope",
-            "scale": null,
-            "properties": {
-                "runbookType": "PowerShell",
-                "logVerbose": false,
-                "logProgress": false,
-                "logActivityTrace": 0
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/runbooks/AzureClassicAutomationTutorial'.",
-            "type": "Microsoft.Automation/automationAccounts/runbooks",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('runbooks_AzureClassicAutomationTutorial_name'))]",
-            "apiVersion": "2015-10-31",
-            "location": "westeurope",
-            "scale": null,
-            "properties": {
-                "runbookType": "GraphPowerShell",
-                "logVerbose": false,
-                "logProgress": false,
-                "logActivityTrace": 0
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/runbooks/AzureClassicAutomationTutorialScript'.",
-            "type": "Microsoft.Automation/automationAccounts/runbooks",
-            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('runbooks_AzureClassicAutomationTutorialScript_name'))]",
-            "apiVersion": "2015-10-31",
-            "location": "westeurope",
-            "scale": null,
-            "properties": {
-                "runbookType": "PowerShell",
-                "logVerbose": false,
-                "logProgress": false,
-                "logActivityTrace": 0
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
-            ]
         },
         {
             "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Compute/virtualMachines/ndvoracledb/extensions/Microsoft.Insights.VMDiagnosticsSettings'.",
