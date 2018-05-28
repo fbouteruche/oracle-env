@@ -1,0 +1,1048 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "certificates_AzureClassicRunAsCertificate_base64Value": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "certificates_AzureRunAsCertificate_base64Value": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "extensions_Microsoft.Insights.VMDiagnosticsSettings_storageAccountName": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "extensions_Microsoft.Insights.VMDiagnosticsSettings_storageAccountKey": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_ndvoracledb_name": {
+            "defaultValue": "ndvoracledb",
+            "type": "String"
+        },
+        "networkInterfaces_ndvoracledb132_name": {
+            "defaultValue": "ndvoracledb132",
+            "type": "String"
+        },
+        "publicIPAddresses_ndvoracledb_ip_name": {
+            "defaultValue": "ndvoracledb-ip",
+            "type": "String"
+        },
+        "virtualNetworks_ndvworkshop_vnet_name": {
+            "defaultValue": "ndvworkshop-vnet",
+            "type": "String"
+        },
+        "storageAccounts_ndvworkshopdiag805_name": {
+            "defaultValue": "ndvworkshopdiag805",
+            "type": "String"
+        },
+        "networkSecurityGroups_ndvoracledb_nsg_name": {
+            "defaultValue": "ndvoracledb-nsg",
+            "type": "String"
+        },
+        "automationAccounts_frbouterndvaccount_name": {
+            "defaultValue": "frbouterndvaccount",
+            "type": "String"
+        },
+        "subnets_default_name": {
+            "defaultValue": "default",
+            "type": "String"
+        },
+        "modules_Azure_name": {
+            "defaultValue": "Azure",
+            "type": "String"
+        },
+        "modules_AzureRM.Sql_name": {
+            "defaultValue": "AzureRM.Sql",
+            "type": "String"
+        },
+        "connectionTypes_Azure_name": {
+            "defaultValue": "Azure",
+            "type": "String"
+        },
+        "modules_Azure.Storage_name": {
+            "defaultValue": "Azure.Storage",
+            "type": "String"
+        },
+        "modules_AzureRM.Compute_name": {
+            "defaultValue": "AzureRM.Compute",
+            "type": "String"
+        },
+        "modules_AzureRM.Profile_name": {
+            "defaultValue": "AzureRM.Profile",
+            "type": "String"
+        },
+        "modules_AzureRM.Storage_name": {
+            "defaultValue": "AzureRM.Storage",
+            "type": "String"
+        },
+        "modules_AzureRM.Resources_name": {
+            "defaultValue": "AzureRM.Resources",
+            "type": "String"
+        },
+        "modules_AzureRM.Automation_name": {
+            "defaultValue": "AzureRM.Automation",
+            "type": "String"
+        },
+        "securityRules_default_allow_ssh_name": {
+            "defaultValue": "default-allow-ssh",
+            "type": "String"
+        },
+        "connections_AzureRunAsConnection_name": {
+            "defaultValue": "AzureRunAsConnection",
+            "type": "String"
+        },
+        "runbooks_AzureAutomationTutorial_name": {
+            "defaultValue": "AzureAutomationTutorial",
+            "type": "String"
+        },
+        "modules_Microsoft.PowerShell.Core_name": {
+            "defaultValue": "Microsoft.PowerShell.Core",
+            "type": "String"
+        },
+        "certificates_AzureRunAsCertificate_name": {
+            "defaultValue": "AzureRunAsCertificate",
+            "type": "String"
+        },
+        "modules_Microsoft.WSMan.Management_name": {
+            "defaultValue": "Microsoft.WSMan.Management",
+            "type": "String"
+        },
+        "modules_Microsoft.PowerShell.Utility_name": {
+            "defaultValue": "Microsoft.PowerShell.Utility",
+            "type": "String"
+        },
+        "connectionTypes_AzureServicePrincipal_name": {
+            "defaultValue": "AzureServicePrincipal",
+            "type": "String"
+        },
+        "modules_Microsoft.PowerShell.Security_name": {
+            "defaultValue": "Microsoft.PowerShell.Security",
+            "type": "String"
+        },
+        "runbooks_AzureAutomationTutorialScript_name": {
+            "defaultValue": "AzureAutomationTutorialScript",
+            "type": "String"
+        },
+        "extensions_Microsoft.Insights.VMDiagnosticsSettings_name": {
+            "defaultValue": "Microsoft.Insights.VMDiagnosticsSettings",
+            "type": "String"
+        },
+        "connections_AzureClassicRunAsConnection_name": {
+            "defaultValue": "AzureClassicRunAsConnection",
+            "type": "String"
+        },
+        "connectionTypes_AzureClassicCertificate_name": {
+            "defaultValue": "AzureClassicCertificate",
+            "type": "String"
+        },
+        "modules_Microsoft.PowerShell.Management_name": {
+            "defaultValue": "Microsoft.PowerShell.Management",
+            "type": "String"
+        },
+        "runbooks_AzureAutomationTutorialPython2_name": {
+            "defaultValue": "AzureAutomationTutorialPython2",
+            "type": "String"
+        },
+        "runbooks_AzureClassicAutomationTutorial_name": {
+            "defaultValue": "AzureClassicAutomationTutorial",
+            "type": "String"
+        },
+        "modules_Microsoft.PowerShell.Diagnostics_name": {
+            "defaultValue": "Microsoft.PowerShell.Diagnostics",
+            "type": "String"
+        },
+        "certificates_AzureClassicRunAsCertificate_name": {
+            "defaultValue": "AzureClassicRunAsCertificate",
+            "type": "String"
+        },
+        "modules_Orchestrator.AssetManagement.Cmdlets_name": {
+            "defaultValue": "Orchestrator.AssetManagement.Cmdlets",
+            "type": "String"
+        },
+        "runbooks_AzureClassicAutomationTutorialScript_name": {
+            "defaultValue": "AzureClassicAutomationTutorialScript",
+            "type": "String"
+        },
+        "virtualMachines_ndvoracledb_id": {
+            "defaultValue": "/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Compute/disks/ndvoracledb_OsDisk_1_f7d5d8f9adae468d851ab4097407bea5",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount'.",
+            "type": "Microsoft.Automation/automationAccounts",
+            "name": "[parameters('automationAccounts_frbouterndvaccount_name')]",
+            "apiVersion": "2015-10-31",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {},
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Compute/virtualMachines/ndvoracledb'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_ndvoracledb_name')]",
+            "apiVersion": "2017-12-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D2s_v3"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Oracle",
+                        "offer": "Oracle-Database-Ee",
+                        "sku": "12.1.0.2",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('virtualMachines_ndvoracledb_name'),'_OsDisk_1_f7d5d8f9adae468d851ab4097407bea5')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('virtualMachines_ndvoracledb_id')]"
+                        },
+                        "diskSizeGB": 50
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_ndvoracledb_name')]",
+                    "adminUsername": "adminndv",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "path": "/home/adminndv/.ssh/authorized_keys",
+                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF2zHOPao9zTkG4cEWr+7KFUUUJWURIU+Xgev0TwCvViR/CQHG0R+1dtkJBjPRDHX9A/9I5jweKlDKJErWQ5io3+0UQY9xNmTcsSd7sQOo1GDqdlm9zWJpG7zkipPYCH07XKLr1jHOqwXdV5zkPrNM8pjmlV8tVaJfK8dxvKC7JZHvYwqHx2hltezFWtH0f3jt5/HW7cMdjh1Nf891QcKYntwEU27bdOjYki4/1tA4xN1el5wRgo0D/UWOG5ojIMIOpL4KHe8qgyZnp1mwvXRFpmvalYiYutopEKLx7wMG5stASEdVfLJa0P1K/PjcM73I4vTzn60Q6nwlhdNQDp8V"
+                                }
+                            ]
+                        }
+                    },
+                    "secrets": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_ndvoracledb132_name'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[concat('https', '://', parameters('storageAccounts_ndvworkshopdiag805_name'), '.blob.core.windows.net', '/')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_ndvoracledb132_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_ndvworkshopdiag805_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/networkInterfaces/ndvoracledb132'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_ndvoracledb132_name')]",
+            "apiVersion": "2018-02-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "a3fa0dbb-65d4-41bb-babf-44910873106a",
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "etag": "W/\"6030976c-eb6a-4e90-81a7-7797512a9e6f\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "privateIPAddress": "10.1.1.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ndvoracledb_ip_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_ndvworkshop_vnet_name'), parameters('subnets_default_name'))]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": [],
+                    "appliedDnsServers": [],
+                    "internalDomainNameSuffix": "gj5woohj2r3uharnnkgwkxfnfa.ax.internal.cloudapp.net"
+                },
+                "macAddress": "00-0D-3A-2D-34-F5",
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ndvoracledb_nsg_name'))]"
+                },
+                "primary": true,
+                "virtualMachine": {
+                    "id": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_ndvoracledb_name'))]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ndvoracledb_ip_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_ndvworkshop_vnet_name'), parameters('subnets_default_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ndvoracledb_nsg_name'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_ndvoracledb_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/networkSecurityGroups/ndvoracledb-nsg'.",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('networkSecurityGroups_ndvoracledb_nsg_name')]",
+            "apiVersion": "2018-02-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "ce21beac-5b08-4637-b157-0b0c8cbca831",
+                "securityRules": [
+                    {
+                        "name": "default-allow-ssh",
+                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1000,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ],
+                "defaultSecurityRules": [
+                    {
+                        "name": "AllowVnetInBound",
+                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowAzureLoadBalancerInBound",
+                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from azure load balancer",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "AzureLoadBalancer",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllInBound",
+                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all inbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowVnetOutBound",
+                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowInternetOutBound",
+                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to Internet",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "Internet",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllOutBound",
+                        "etag": "W/\"f765a96b-7c30-4762-bd20-f14a3e910d3a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all outbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ]
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/publicIPAddresses/ndvoracledb-ip'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "name": "[parameters('publicIPAddresses_ndvoracledb_ip_name')]",
+            "apiVersion": "2018-02-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "e98c07dd-aaf5-4639-a47c-d452e9423843",
+                "ipAddress": "137.117.215.151",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/virtualNetworks/ndvworkshop-vnet'.",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworks_ndvworkshop_vnet_name')]",
+            "apiVersion": "2018-02-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "38677f32-e4e9-437b-822d-6a8d655cad28",
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.1.1.0/24"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "default",
+                        "etag": "W/\"b003320b-22e8-48d6-a919-18009c3ac406\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "addressPrefix": "10.1.1.0/25"
+                        }
+                    }
+                ],
+                "virtualNetworkPeerings": [],
+                "enableDdosProtection": false,
+                "enableVmProtection": false
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Storage/storageAccounts/ndvworkshopdiag805'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_ndvworkshopdiag805_name')]",
+            "apiVersion": "2017-10-01",
+            "location": "westeurope",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": false,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/certificates/AzureClassicRunAsCertificate'.",
+            "type": "Microsoft.Automation/automationAccounts/certificates",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('certificates_AzureClassicRunAsCertificate_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "description": "This certificate is used to authenticate with Azure so that you can manage Azure classic resources from runbooks. For details on this certificate, or to manage it, go to this account’s Settings.  For example usage, see the tutorial runbook in this account.",
+                "isExportable": false,
+                "thumbprint": "0120EA6F45626A4D6E3552FECCDC7E8F2499D3BB",
+                "base64Value": "[parameters('certificates_AzureClassicRunAsCertificate_base64Value')]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/certificates/AzureRunAsCertificate'.",
+            "type": "Microsoft.Automation/automationAccounts/certificates",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('certificates_AzureRunAsCertificate_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "description": "This certificate is used to authenticate with the service principal that was automatically created for this account. For details on this service principal and certificate, or to recreate them, go to this account’s Settings. For example usage, see the tutorial runbook in this account.",
+                "isExportable": true,
+                "thumbprint": "1EF3555BC69A315B07B833E3373F82519122C17D",
+                "base64Value": "[parameters('certificates_AzureRunAsCertificate_base64Value')]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/connections/AzureClassicRunAsConnection'.",
+            "type": "Microsoft.Automation/automationAccounts/connections",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('connections_AzureClassicRunAsConnection_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "description": null,
+                "fieldDefinitionValues": null,
+                "connectionType": {
+                    "name": "AzureClassicCertificate"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/connections/AzureRunAsConnection'.",
+            "type": "Microsoft.Automation/automationAccounts/connections",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('connections_AzureRunAsConnection_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "description": null,
+                "fieldDefinitionValues": null,
+                "connectionType": {
+                    "name": "AzureServicePrincipal"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/connectionTypes/Azure'.",
+            "type": "Microsoft.Automation/automationAccounts/connectionTypes",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('connectionTypes_Azure_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "isGlobal": true,
+                "fieldDefinitions": {
+                    "AutomationCertificateName": {
+                        "isEncrypted": false,
+                        "isOptional": false,
+                        "type": "System.String"
+                    },
+                    "SubscriptionID": {
+                        "isEncrypted": false,
+                        "isOptional": false,
+                        "type": "System.String"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/connectionTypes/AzureClassicCertificate'.",
+            "type": "Microsoft.Automation/automationAccounts/connectionTypes",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('connectionTypes_AzureClassicCertificate_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "isGlobal": true,
+                "fieldDefinitions": {
+                    "SubscriptionName": {
+                        "isEncrypted": false,
+                        "isOptional": false,
+                        "type": "System.String"
+                    },
+                    "SubscriptionId": {
+                        "isEncrypted": false,
+                        "isOptional": false,
+                        "type": "System.String"
+                    },
+                    "CertificateAssetName": {
+                        "isEncrypted": false,
+                        "isOptional": false,
+                        "type": "System.String"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/connectionTypes/AzureServicePrincipal'.",
+            "type": "Microsoft.Automation/automationAccounts/connectionTypes",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('connectionTypes_AzureServicePrincipal_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "isGlobal": true,
+                "fieldDefinitions": {
+                    "ApplicationId": {
+                        "isEncrypted": false,
+                        "isOptional": false,
+                        "type": "System.String"
+                    },
+                    "TenantId": {
+                        "isEncrypted": false,
+                        "isOptional": false,
+                        "type": "System.String"
+                    },
+                    "CertificateThumbprint": {
+                        "isEncrypted": false,
+                        "isOptional": false,
+                        "type": "System.String"
+                    },
+                    "SubscriptionId": {
+                        "isEncrypted": false,
+                        "isOptional": false,
+                        "type": "System.String"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Azure'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Azure_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Azure.Storage'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Azure.Storage_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/AzureRM.Automation'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_AzureRM.Automation_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/AzureRM.Compute'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_AzureRM.Compute_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/AzureRM.Profile'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_AzureRM.Profile_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/AzureRM.Resources'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_AzureRM.Resources_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/AzureRM.Sql'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_AzureRM.Sql_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/AzureRM.Storage'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_AzureRM.Storage_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Microsoft.PowerShell.Core'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Microsoft.PowerShell.Core_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Microsoft.PowerShell.Diagnostics'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Microsoft.PowerShell.Diagnostics_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Microsoft.PowerShell.Management'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Microsoft.PowerShell.Management_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Microsoft.PowerShell.Security'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Microsoft.PowerShell.Security_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Microsoft.PowerShell.Utility'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Microsoft.PowerShell.Utility_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Microsoft.WSMan.Management'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Microsoft.WSMan.Management_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/modules/Orchestrator.AssetManagement.Cmdlets'.",
+            "type": "Microsoft.Automation/automationAccounts/modules",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('modules_Orchestrator.AssetManagement.Cmdlets_name'))]",
+            "apiVersion": "2015-10-31",
+            "scale": null,
+            "properties": {
+                "contentLink": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/runbooks/AzureAutomationTutorial'.",
+            "type": "Microsoft.Automation/automationAccounts/runbooks",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('runbooks_AzureAutomationTutorial_name'))]",
+            "apiVersion": "2015-10-31",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "runbookType": "GraphPowerShell",
+                "logVerbose": false,
+                "logProgress": false,
+                "logActivityTrace": 0
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/runbooks/AzureAutomationTutorialPython2'.",
+            "type": "Microsoft.Automation/automationAccounts/runbooks",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('runbooks_AzureAutomationTutorialPython2_name'))]",
+            "apiVersion": "2015-10-31",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "runbookType": "Python2",
+                "logVerbose": false,
+                "logProgress": false,
+                "logActivityTrace": 0
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/runbooks/AzureAutomationTutorialScript'.",
+            "type": "Microsoft.Automation/automationAccounts/runbooks",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('runbooks_AzureAutomationTutorialScript_name'))]",
+            "apiVersion": "2015-10-31",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "runbookType": "PowerShell",
+                "logVerbose": false,
+                "logProgress": false,
+                "logActivityTrace": 0
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/runbooks/AzureClassicAutomationTutorial'.",
+            "type": "Microsoft.Automation/automationAccounts/runbooks",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('runbooks_AzureClassicAutomationTutorial_name'))]",
+            "apiVersion": "2015-10-31",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "runbookType": "GraphPowerShell",
+                "logVerbose": false,
+                "logProgress": false,
+                "logActivityTrace": 0
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourcegroups/ndvworkshop/providers/Microsoft.Automation/automationAccounts/frbouterndvaccount/runbooks/AzureClassicAutomationTutorialScript'.",
+            "type": "Microsoft.Automation/automationAccounts/runbooks",
+            "name": "[concat(parameters('automationAccounts_frbouterndvaccount_name'), '/', parameters('runbooks_AzureClassicAutomationTutorialScript_name'))]",
+            "apiVersion": "2015-10-31",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "runbookType": "PowerShell",
+                "logVerbose": false,
+                "logProgress": false,
+                "logActivityTrace": 0
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_frbouterndvaccount_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Compute/virtualMachines/ndvoracledb/extensions/Microsoft.Insights.VMDiagnosticsSettings'.",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('virtualMachines_ndvoracledb_name'), '/', parameters('extensions_Microsoft.Insights.VMDiagnosticsSettings_name'))]",
+            "apiVersion": "2017-12-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "publisher": "Microsoft.OSTCExtensions",
+                "type": "LinuxDiagnostic",
+                "typeHandlerVersion": "2.3",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "xmlCfg": "PFdhZENmZz48RGlhZ25vc3RpY01vbml0b3JDb25maWd1cmF0aW9uIG92ZXJhbGxRdW90YUluTUI9IjQwOTYiPjxEaWFnbm9zdGljSW5mcmFzdHJ1Y3R1cmVMb2dzIHNjaGVkdWxlZFRyYW5zZmVyUGVyaW9kPSJQVDFNIiBzY2hlZHVsZWRUcmFuc2ZlckxvZ0xldmVsRmlsdGVyPSJXYXJuaW5nIi8+PFBlcmZvcm1hbmNlQ291bnRlcnMgc2NoZWR1bGVkVHJhbnNmZXJQZXJpb2Q9IlBUMU0iPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxNZW1vcnlcQXZhaWxhYmxlTWVtb3J5IiBzYW1wbGVSYXRlPSJQVDE1UyIgdW5pdD0iQnl0ZXMiPjxhbm5vdGF0aW9uIGRpc3BsYXlOYW1lPSJNZW1vcnkgYXZhaWxhYmxlIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxNZW1vcnlcUGVyY2VudEF2YWlsYWJsZU1lbW9yeSIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IlBlcmNlbnQiPjxhbm5vdGF0aW9uIGRpc3BsYXlOYW1lPSJNZW0uIHBlcmNlbnQgYXZhaWxhYmxlIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxNZW1vcnlcVXNlZE1lbW9yeSIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IkJ5dGVzIj48YW5ub3RhdGlvbiBkaXNwbGF5TmFtZT0iTWVtb3J5IHVzZWQiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXE1lbW9yeVxQZXJjZW50VXNlZE1lbW9yeSIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IlBlcmNlbnQiPjxhbm5vdGF0aW9uIGRpc3BsYXlOYW1lPSJNZW1vcnkgcGVyY2VudGFnZSIgbG9jYWxlPSJlbi11cyIvPjwvUGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbj48UGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbiBjb3VudGVyU3BlY2lmaWVyPSJcTWVtb3J5XFBlcmNlbnRVc2VkQnlDYWNoZSIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IlBlcmNlbnQiPjxhbm5vdGF0aW9uIGRpc3BsYXlOYW1lPSJNZW0uIHVzZWQgYnkgY2FjaGUiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXE1lbW9yeVxQYWdlc1BlclNlYyIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IkNvdW50UGVyU2Vjb25kIj48YW5ub3RhdGlvbiBkaXNwbGF5TmFtZT0iUGFnZXMiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXE1lbW9yeVxQYWdlc1JlYWRQZXJTZWMiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJDb3VudFBlclNlY29uZCI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9IlBhZ2UgcmVhZHMiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXE1lbW9yeVxQYWdlc1dyaXR0ZW5QZXJTZWMiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJDb3VudFBlclNlY29uZCI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9IlBhZ2Ugd3JpdGVzIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxNZW1vcnlcQXZhaWxhYmxlU3dhcCIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IkJ5dGVzIj48YW5ub3RhdGlvbiBkaXNwbGF5TmFtZT0iU3dhcCBhdmFpbGFibGUiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXE1lbW9yeVxQZXJjZW50QXZhaWxhYmxlU3dhcCIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IlBlcmNlbnQiPjxhbm5vdGF0aW9uIGRpc3BsYXlOYW1lPSJTd2FwIHBlcmNlbnQgYXZhaWxhYmxlIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxNZW1vcnlcVXNlZFN3YXAiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJCeXRlcyI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9IlN3YXAgdXNlZCIgbG9jYWxlPSJlbi11cyIvPjwvUGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbj48UGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbiBjb3VudGVyU3BlY2lmaWVyPSJcTWVtb3J5XFBlcmNlbnRVc2VkU3dhcCIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IlBlcmNlbnQiPjxhbm5vdGF0aW9uIGRpc3BsYXlOYW1lPSJTd2FwIHBlcmNlbnQgdXNlZCIgbG9jYWxlPSJlbi11cyIvPjwvUGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbj48UGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbiBjb3VudGVyU3BlY2lmaWVyPSJcUHJvY2Vzc29yXFBlcmNlbnRJZGxlVGltZSIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IlBlcmNlbnQiPjxhbm5vdGF0aW9uIGRpc3BsYXlOYW1lPSJDUFUgaWRsZSB0aW1lIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxQcm9jZXNzb3JcUGVyY2VudFVzZXJUaW1lIiBzYW1wbGVSYXRlPSJQVDE1UyIgdW5pdD0iUGVyY2VudCI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9IkNQVSB1c2VyIHRpbWUiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXFByb2Nlc3NvclxQZXJjZW50TmljZVRpbWUiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJQZXJjZW50Ij48YW5ub3RhdGlvbiBkaXNwbGF5TmFtZT0iQ1BVIG5pY2UgdGltZSIgbG9jYWxlPSJlbi11cyIvPjwvUGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbj48UGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbiBjb3VudGVyU3BlY2lmaWVyPSJcUHJvY2Vzc29yXFBlcmNlbnRQcml2aWxlZ2VkVGltZSIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IlBlcmNlbnQiPjxhbm5vdGF0aW9uIGRpc3BsYXlOYW1lPSJDUFUgcHJpdmlsZWdlZCB0aW1lIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxQcm9jZXNzb3JcUGVyY2VudEludGVycnVwdFRpbWUiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJQZXJjZW50Ij48YW5ub3RhdGlvbiBkaXNwbGF5TmFtZT0iQ1BVIGludGVycnVwdCB0aW1lIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxQcm9jZXNzb3JcUGVyY2VudERQQ1RpbWUiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJQZXJjZW50Ij48YW5ub3RhdGlvbiBkaXNwbGF5TmFtZT0iQ1BVIERQQyB0aW1lIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxQcm9jZXNzb3JcUGVyY2VudFByb2Nlc3NvclRpbWUiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJQZXJjZW50Ij48YW5ub3RhdGlvbiBkaXNwbGF5TmFtZT0iQ1BVIHBlcmNlbnRhZ2UgZ3Vlc3QgT1MiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXFByb2Nlc3NvclxQZXJjZW50SU9XYWl0VGltZSIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IlBlcmNlbnQiPjxhbm5vdGF0aW9uIGRpc3BsYXlOYW1lPSJDUFUgSU8gd2FpdCB0aW1lIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxQaHlzaWNhbERpc2tcQnl0ZXNQZXJTZWNvbmQiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJCeXRlc1BlclNlY29uZCI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9IkRpc2sgdG90YWwgYnl0ZXMiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXFBoeXNpY2FsRGlza1xSZWFkQnl0ZXNQZXJTZWNvbmQiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJCeXRlc1BlclNlY29uZCI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9IkRpc2sgcmVhZCBndWVzdCBPUyIgbG9jYWxlPSJlbi11cyIvPjwvUGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbj48UGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbiBjb3VudGVyU3BlY2lmaWVyPSJcUGh5c2ljYWxEaXNrXFdyaXRlQnl0ZXNQZXJTZWNvbmQiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJCeXRlc1BlclNlY29uZCI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9IkRpc2sgd3JpdGUgZ3Vlc3QgT1MiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXFBoeXNpY2FsRGlza1xUcmFuc2ZlcnNQZXJTZWNvbmQiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJDb3VudFBlclNlY29uZCI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9IkRpc2sgdHJhbnNmZXJzIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxQaHlzaWNhbERpc2tcUmVhZHNQZXJTZWNvbmQiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJDb3VudFBlclNlY29uZCI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9IkRpc2sgcmVhZHMiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXFBoeXNpY2FsRGlza1xXcml0ZXNQZXJTZWNvbmQiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJDb3VudFBlclNlY29uZCI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9IkRpc2sgd3JpdGVzIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxQaHlzaWNhbERpc2tcQXZlcmFnZVJlYWRUaW1lIiBzYW1wbGVSYXRlPSJQVDE1UyIgdW5pdD0iU2Vjb25kcyI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9IkRpc2sgcmVhZCB0aW1lIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxQaHlzaWNhbERpc2tcQXZlcmFnZVdyaXRlVGltZSIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IlNlY29uZHMiPjxhbm5vdGF0aW9uIGRpc3BsYXlOYW1lPSJEaXNrIHdyaXRlIHRpbWUiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXFBoeXNpY2FsRGlza1xBdmVyYWdlVHJhbnNmZXJUaW1lIiBzYW1wbGVSYXRlPSJQVDE1UyIgdW5pdD0iU2Vjb25kcyI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9IkRpc2sgdHJhbnNmZXIgdGltZSIgbG9jYWxlPSJlbi11cyIvPjwvUGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbj48UGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbiBjb3VudGVyU3BlY2lmaWVyPSJcUGh5c2ljYWxEaXNrXEF2ZXJhZ2VEaXNrUXVldWVMZW5ndGgiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJDb3VudCI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9IkRpc2sgcXVldWUgbGVuZ3RoIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxOZXR3b3JrSW50ZXJmYWNlXEJ5dGVzVHJhbnNtaXR0ZWQiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJCeXRlcyI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9Ik5ldHdvcmsgb3V0IGd1ZXN0IE9TIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxOZXR3b3JrSW50ZXJmYWNlXEJ5dGVzUmVjZWl2ZWQiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJCeXRlcyI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9Ik5ldHdvcmsgaW4gZ3Vlc3QgT1MiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXE5ldHdvcmtJbnRlcmZhY2VcUGFja2V0c1RyYW5zbWl0dGVkIiBzYW1wbGVSYXRlPSJQVDE1UyIgdW5pdD0iQ291bnQiPjxhbm5vdGF0aW9uIGRpc3BsYXlOYW1lPSJQYWNrZXRzIHNlbnQiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXE5ldHdvcmtJbnRlcmZhY2VcUGFja2V0c1JlY2VpdmVkIiBzYW1wbGVSYXRlPSJQVDE1UyIgdW5pdD0iQ291bnQiPjxhbm5vdGF0aW9uIGRpc3BsYXlOYW1lPSJQYWNrZXRzIHJlY2VpdmVkIiBsb2NhbGU9ImVuLXVzIi8+PC9QZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uPjxQZXJmb3JtYW5jZUNvdW50ZXJDb25maWd1cmF0aW9uIGNvdW50ZXJTcGVjaWZpZXI9IlxOZXR3b3JrSW50ZXJmYWNlXEJ5dGVzVG90YWwiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJCeXRlcyI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9Ik5ldHdvcmsgdG90YWwgYnl0ZXMiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXE5ldHdvcmtJbnRlcmZhY2VcVG90YWxSeEVycm9ycyIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IkNvdW50Ij48YW5ub3RhdGlvbiBkaXNwbGF5TmFtZT0iUGFja2V0cyByZWNlaXZlZCBlcnJvcnMiIGxvY2FsZT0iZW4tdXMiLz48L1BlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24+PFBlcmZvcm1hbmNlQ291bnRlckNvbmZpZ3VyYXRpb24gY291bnRlclNwZWNpZmllcj0iXE5ldHdvcmtJbnRlcmZhY2VcVG90YWxUeEVycm9ycyIgc2FtcGxlUmF0ZT0iUFQxNVMiIHVuaXQ9IkNvdW50Ij48YW5ub3RhdGlvbiBkaXNwbGF5TmFtZT0iUGFja2V0cyBzZW50IGVycm9ycyIgbG9jYWxlPSJlbi11cyIvPjwvUGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbj48UGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbiBjb3VudGVyU3BlY2lmaWVyPSJcTmV0d29ya0ludGVyZmFjZVxUb3RhbENvbGxpc2lvbnMiIHNhbXBsZVJhdGU9IlBUMTVTIiB1bml0PSJDb3VudCI+PGFubm90YXRpb24gZGlzcGxheU5hbWU9Ik5ldHdvcmsgY29sbGlzaW9ucyIgbG9jYWxlPSJlbi11cyIvPjwvUGVyZm9ybWFuY2VDb3VudGVyQ29uZmlndXJhdGlvbj48L1BlcmZvcm1hbmNlQ291bnRlcnM+PE1ldHJpY3MgcmVzb3VyY2VJZD0iL3N1YnNjcmlwdGlvbnMvMzY3ZGE0M2UtNGVmYS00OGI0LWI3M2EtZWU0NjFmZDU3ZjZiL3Jlc291cmNlR3JvdXBzL25kdndvcmtzaG9wL3Byb3ZpZGVycy9NaWNyb3NvZnQuQ29tcHV0ZS92aXJ0dWFsTWFjaGluZXMvbmR2b3JhY2xlZGIiPjxNZXRyaWNBZ2dyZWdhdGlvbiBzY2hlZHVsZWRUcmFuc2ZlclBlcmlvZD0iUFQxSCIvPjxNZXRyaWNBZ2dyZWdhdGlvbiBzY2hlZHVsZWRUcmFuc2ZlclBlcmlvZD0iUFQxTSIvPjwvTWV0cmljcz48L0RpYWdub3N0aWNNb25pdG9yQ29uZmlndXJhdGlvbj48L1dhZENmZz4="
+                },
+                "protectedSettings": {
+                    "storageAccountName": "[parameters('extensions_Microsoft.Insights.VMDiagnosticsSettings_storageAccountName')]",
+                    "storageAccountKey": "[parameters('extensions_Microsoft.Insights.VMDiagnosticsSettings_storageAccountKey')]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_ndvoracledb_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/networkSecurityGroups/ndvoracledb-nsg/securityRules/default-allow-ssh'.",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "name": "[concat(parameters('networkSecurityGroups_ndvoracledb_nsg_name'), '/', parameters('securityRules_default_allow_ssh_name'))]",
+            "apiVersion": "2018-02-01",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "22",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 1000,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ndvoracledb_nsg_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/virtualNetworks/ndvworkshop-vnet/subnets/default'.",
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "name": "[concat(parameters('virtualNetworks_ndvworkshop_vnet_name'), '/', parameters('subnets_default_name'))]",
+            "apiVersion": "2018-02-01",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "addressPrefix": "10.1.1.0/25"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_ndvworkshop_vnet_name'))]"
+            ]
+        }
+    ]
+}
