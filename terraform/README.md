@@ -12,6 +12,13 @@ file:
 - `resource_group_name` a resource group name for the whole stack
 - `container_name` the container name for the object storage
 
+Create a file named `identity.auto.tfvars` in the terraform directory that
+contains the VM instance password. It should look like below:
+
+```text
+password="XXX"
+```
+
 Once done, you should be able to provision the resource to use with terraform
 
 ```bash

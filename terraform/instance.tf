@@ -1,14 +1,5 @@
-# resource "azurerm_managed_disk" "OracleLinuxVirtualDisk" {
-#   name                 = "datadisk_existing"
-#   location             = "${azurerm_resource_group.network.location}"
-#   resource_group_name  = "${azurerm_resource_group.network.name}"
-#   storage_account_type = "Standard_LRS"
-#   create_option        = "Empty"
-#   disk_size_gb         = "1023"
-# }
-
 resource "azurerm_virtual_machine" "OracleLinuxVM" {
-  name                  = "acctvm"
+  name                  = "OracleLinuxVM"
   location              = "${azurerm_resource_group.network.location}"
   resource_group_name   = "${azurerm_resource_group.network.name}"
   network_interface_ids = ["${azurerm_network_interface.OracleLinuxNI.id}"]

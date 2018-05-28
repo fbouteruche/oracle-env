@@ -31,6 +31,6 @@ resource "azurerm_automation_runbook" "simpleRunbook" {
   runbook_type        = "Script"
 
   publish_content_link {
-    uri = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-automation-runbook-getvms/Runbooks/Get-AzureVMTutorial.ps1"
+    uri = "https://raw.githubusercontent.com/fbouteruche/oracle-env/feature/automation/terraform/shell.sh"
   }
 }

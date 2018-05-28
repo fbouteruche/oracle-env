@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "network" {
   name     = "staging"
-  location = "France Central"
+  location = "West Europe"
 }
 
 # Create a virtual network within the resource group
