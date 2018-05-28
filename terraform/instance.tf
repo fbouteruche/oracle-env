@@ -24,6 +24,7 @@ resource "azurerm_virtual_machine" "OracleLinuxVM" {
   os_profile {
     computer_name  = "oracle74"
     admin_username = "oracle"
+    admin_password = "${var.password}"
   }
 
   storage_os_disk {
@@ -39,7 +40,7 @@ resource "azurerm_virtual_machine" "OracleLinuxVM" {
       path     = "/home/oracle/.ssh/authorized_keys"
     }
 
-    disable_password_authentication = true
+    disable_password_authentication = false
   }
 
   delete_data_disks_on_termination = true
