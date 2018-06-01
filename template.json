@@ -6,148 +6,22 @@
             "defaultValue": "oracle-env",
             "type": "string"
         },
-        "storageAccounts_ndvworkshopdiag805_name": {
-            "defaultValue": "ndvworkshopdiag805",
-            "type": "String"
-        },
-        "networkSecurityGroups_ndvoracledb_nsg_name": {
-            "defaultValue": "ndvoracledb-nsg",
-            "type": "String"
-        },
-        "automationAccounts_frbouterndvaccount_name": {
-            "defaultValue": "frbouterndvaccount",
-            "type": "String"
-        },
-        "subnets_default_name": {
-            "defaultValue": "default",
-            "type": "String"
-        },
-        "modules_Azure_name": {
-            "defaultValue": "Azure",
-            "type": "String"
-        },
-        "modules_AzureRM.Sql_name": {
-            "defaultValue": "AzureRM.Sql",
-            "type": "String"
-        },
-        "connectionTypes_Azure_name": {
-            "defaultValue": "Azure",
-            "type": "String"
-        },
-        "modules_Azure.Storage_name": {
-            "defaultValue": "Azure.Storage",
-            "type": "String"
-        },
-        "modules_AzureRM.Compute_name": {
-            "defaultValue": "AzureRM.Compute",
-            "type": "String"
-        },
-        "modules_AzureRM.Profile_name": {
-            "defaultValue": "AzureRM.Profile",
-            "type": "String"
-        },
-        "modules_AzureRM.Storage_name": {
-            "defaultValue": "AzureRM.Storage",
-            "type": "String"
-        },
-        "modules_AzureRM.Resources_name": {
-            "defaultValue": "AzureRM.Resources",
-            "type": "String"
-        },
-        "modules_AzureRM.Automation_name": {
-            "defaultValue": "AzureRM.Automation",
-            "type": "String"
-        },
         "securityRules_default_allow_ssh_name": {
             "defaultValue": "default-allow-ssh",
-            "type": "String"
-        },
-        "connections_AzureRunAsConnection_name": {
-            "defaultValue": "AzureRunAsConnection",
-            "type": "String"
-        },
-        "runbooks_AzureAutomationTutorial_name": {
-            "defaultValue": "AzureAutomationTutorial",
-            "type": "String"
-        },
-        "modules_Microsoft.PowerShell.Core_name": {
-            "defaultValue": "Microsoft.PowerShell.Core",
-            "type": "String"
-        },
-        "certificates_AzureRunAsCertificate_name": {
-            "defaultValue": "AzureRunAsCertificate",
-            "type": "String"
-        },
-        "modules_Microsoft.WSMan.Management_name": {
-            "defaultValue": "Microsoft.WSMan.Management",
-            "type": "String"
-        },
-        "modules_Microsoft.PowerShell.Utility_name": {
-            "defaultValue": "Microsoft.PowerShell.Utility",
-            "type": "String"
-        },
-        "connectionTypes_AzureServicePrincipal_name": {
-            "defaultValue": "AzureServicePrincipal",
-            "type": "String"
-        },
-        "modules_Microsoft.PowerShell.Security_name": {
-            "defaultValue": "Microsoft.PowerShell.Security",
-            "type": "String"
-        },
-        "runbooks_AzureAutomationTutorialScript_name": {
-            "defaultValue": "AzureAutomationTutorialScript",
-            "type": "String"
-        },
-        "extensions_Microsoft.Insights.VMDiagnosticsSettings_name": {
-            "defaultValue": "Microsoft.Insights.VMDiagnosticsSettings",
-            "type": "String"
-        },
-        "connections_AzureClassicRunAsConnection_name": {
-            "defaultValue": "AzureClassicRunAsConnection",
-            "type": "String"
-        },
-        "connectionTypes_AzureClassicCertificate_name": {
-            "defaultValue": "AzureClassicCertificate",
-            "type": "String"
-        },
-        "modules_Microsoft.PowerShell.Management_name": {
-            "defaultValue": "Microsoft.PowerShell.Management",
-            "type": "String"
-        },
-        "runbooks_AzureAutomationTutorialPython2_name": {
-            "defaultValue": "AzureAutomationTutorialPython2",
-            "type": "String"
-        },
-        "runbooks_AzureClassicAutomationTutorial_name": {
-            "defaultValue": "AzureClassicAutomationTutorial",
-            "type": "String"
-        },
-        "modules_Microsoft.PowerShell.Diagnostics_name": {
-            "defaultValue": "Microsoft.PowerShell.Diagnostics",
-            "type": "String"
-        },
-        "certificates_AzureClassicRunAsCertificate_name": {
-            "defaultValue": "AzureClassicRunAsCertificate",
-            "type": "String"
-        },
-        "modules_Orchestrator.AssetManagement.Cmdlets_name": {
-            "defaultValue": "Orchestrator.AssetManagement.Cmdlets",
-            "type": "String"
-        },
-        "runbooks_AzureClassicAutomationTutorialScript_name": {
-            "defaultValue": "AzureClassicAutomationTutorialScript",
-            "type": "String"
-        },
-        "virtualMachines_ndvoracledb_id": {
-            "defaultValue": "/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Compute/disks/ndvoracledb_OsDisk_1_f7d5d8f9adae468d851ab4097407bea5",
-            "type": "String"
+            "type": "string"
         }
     },
     "variables": {
         "vmDbName": "[concat(parameters('environment_name'), '-db')]",
         "vmDbNiName": "[concat(parameters('environment_name'), '-db-ni')]",
         "vmDbPIPName": "[concat(parameters('environment_name'), '-db-pip')]",
-        "vnetName": "[concat(parameters('environment_name'), '-vnet')]"
+        "vmMSName": "[concat(parameters('environment_name'), '-ms')]",
+        "vmMSNiName": "[concat(parameters('environment_name'), '-ms-ni')]",
+        "vmMSPIPName": "[concat(parameters('environment_name'), '-db-pip')]",
+        "vnetName": "[concat(parameters('environment_name'), '-vnet')]",
+        "subnetName": "backend",
+        "storageAccountName": "[concat(replace(parameters('environment_name'), '-', ''), 'storage')]",
+        "nsgName": "[concat(parameters('environment_name'), '-nsg')]"
     },
     "resources": [
         {
@@ -170,12 +44,11 @@
                     },
                     "osDisk": {
                         "osType": "Linux",
-                        "name": "[concat(variables('vmDbName'),'_OsDisk_1_f7d5d8f9adae468d851ab4097407bea5')]",
+                        "name": "[concat(variables('vmDbName'),'_OsDisk')]",
                         "createOption": "FromImage",
                         "caching": "ReadWrite",
-                        "managedDisk": {
-                            "storageAccountType": "Premium_LRS",
-                            "id": "[parameters('virtualMachines_ndvoracledb_id')]"
+                        "managedDisk":{
+                         "storageAccountType":"Premium_LRS"       
                         },
                         "diskSizeGB": 50
                     },
@@ -207,13 +80,13 @@
                 "diagnosticsProfile": {
                     "bootDiagnostics": {
                         "enabled": true,
-                        "storageUri": "[concat('https', '://', parameters('storageAccounts_ndvworkshopdiag805_name'), '.blob.core.windows.net', '/')]"
+                        "storageUri": "[concat('https', '://', variables('storageAccountName'), '.blob.core.windows.net', '/')]"
                     }
                 }
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkInterfaces', variables('vmDbNiName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_ndvworkshopdiag805_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
             ]
         },
         {
@@ -233,7 +106,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmDbPIPName'))]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), parameters('subnets_default_name'))]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('subnetName'))]"
                             },
                             "primary": true,
                             "privateIPAddressVersion": "IPv4"
@@ -243,20 +116,20 @@
                 "enableAcceleratedNetworking": false,
                 "enableIPForwarding": false,
                 "networkSecurityGroup": {
-                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ndvoracledb_nsg_name'))]"
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
                 },
                 "primary": true
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmDbPIPName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), parameters('subnets_default_name'))]",
-                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ndvoracledb_nsg_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('subnetName'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
             ]
         },
         {
             "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/networkSecurityGroups/ndvoracledb-nsg'.",
             "type": "Microsoft.Network/networkSecurityGroups",
-            "name": "[parameters('networkSecurityGroups_ndvoracledb_nsg_name')]",
+            "name": "[variables('nsgName')]",
             "apiVersion": "2018-02-01",
             "location": "westeurope",
             "scale": null,
@@ -430,14 +303,6 @@
                         "10.1.1.0/24"
                     ]
                 },
-                "subnets": [
-                    {
-                        "name": "default",
-                        "properties": {
-                            "addressPrefix": "10.1.1.0/25"
-                        }
-                    }
-                ],
                 "virtualNetworkPeerings": [],
                 "enableDdosProtection": false,
                 "enableVmProtection": false
@@ -452,7 +317,7 @@
                 "tier": "Standard"
             },
             "kind": "Storage",
-            "name": "[parameters('storageAccounts_ndvworkshopdiag805_name')]",
+            "name": "[variables('storageAccountName')]",
             "apiVersion": "2017-10-01",
             "location": "westeurope",
             "tags": {},
@@ -482,7 +347,7 @@
         {
             "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/networkSecurityGroups/ndvoracledb-nsg/securityRules/default-allow-ssh'.",
             "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "name": "[concat(parameters('networkSecurityGroups_ndvoracledb_nsg_name'), '/', parameters('securityRules_default_allow_ssh_name'))]",
+            "name": "[concat(variables('nsgName'), '/', parameters('securityRules_default_allow_ssh_name'))]",
             "apiVersion": "2018-02-01",
             "scale": null,
             "properties": {
@@ -501,13 +366,13 @@
                 "destinationAddressPrefixes": []
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ndvoracledb_nsg_name'))]"
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
             ]
         },
         {
             "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/virtualNetworks/ndvworkshop-vnet/subnets/default'.",
             "type": "Microsoft.Network/virtualNetworks/subnets",
-            "name": "[concat(variables('vnetName'), '/', parameters('subnets_default_name'))]",
+            "name": "[concat(variables('vnetName'), '/', variables('subnetName'))]",
             "apiVersion": "2018-02-01",
             "scale": null,
             "properties": {
