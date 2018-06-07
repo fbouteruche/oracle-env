@@ -24,9 +24,11 @@
         "vmMSIpConfigName": "[concat(parameters('environment_name'), '-ms-ipconfig')]",
         "vmMSDataDiskName": "[concat(parameters('environment_name'), '-ms-datadisk')]",
         "servicePlanName": "[concat(parameters('environment_name'),'-splan')]",
+        "webAppName": "[concat(parameters('environment_name'),'-webApp')]",
         "vnetName": "[concat(parameters('environment_name'), '-vnet')]",
         "vnetGatewayName": "[concat(parameters('environment_name'), '-vnetGateway')]",
         "vnetGatewayPIPName": "[concat(parameters('environment_name'), '-vnetGateway-pip')]",
+        "vnetConnectionName": "[concat(parameters('environment_name'), '-connectionName')]",
         "subnetName": "backend",
         "gatewaySubnetName": "GatewaySubnet",
         "storageAccountName": "[toLower(concat(replace(variables('environment_name_lower'), '-', ''), 'storage'))]",
@@ -44,6 +46,28 @@
             "sku":{
                 "name": "S1"
             }
+        },
+        {
+            "apiVersion": "2016-08-01",
+            "name":"[variables('webAppName')]",
+            "type": "Microsoft.Web/sites",
+            "location":"[resourceGroup().location]",
+            "resources":
+            [
+                {
+                    "apiVersion": "2016-08-01",
+                    "name": "[variables('vnetConnectionName')]",
+                    "type": "virtualNetworkConnections",
+                    "location":"[resourceGroup().location]",
+                    "properties":{
+                        "vnetResourceId": "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', variables('webAppName'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+                    ]
+                }
+            ]
         },
         {
             "type": "Microsoft.Network/publicIPAddresses",
