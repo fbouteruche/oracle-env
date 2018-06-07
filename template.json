@@ -6,8 +6,8 @@
             "defaultValue": "oracle-env",
             "type": "string"
         },
-        "securityRules_default_allow_ssh_name": {
-            "defaultValue": "default-allow-ssh",
+        "ssh_key": {
+            "defaultValue": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF2zHOPao9zTkG4cEWr+7KFUUUJWURIU+Xgev0TwCvViR/CQHG0R+1dtkJBjPRDHX9A/9I5jweKlDKJErWQ5io3+0UQY9xNmTcsSd7sQOo1GDqdlm9zWJpG7zkipPYCH07XKLr1jHOqwXdV5zkPrNM8pjmlV8tVaJfK8dxvKC7JZHvYwqHx2hltezFWtH0f3jt5/HW7cMdjh1Nf891QcKYntwEU27bdOjYki4/1tA4xN1el5wRgo0D/UWOG5ojIMIOpL4KHe8qgyZnp1mwvXRFpmvalYiYutopEKLx7wMG5stASEdVfLJa0P1K/PjcM73I4vTzn60Q6nwlhdNQDp8V",
             "type": "string"
         }
     },
@@ -15,22 +15,93 @@
         "vmDbName": "[concat(parameters('environment_name'), '-db')]",
         "vmDbNiName": "[concat(parameters('environment_name'), '-db-ni')]",
         "vmDbPIPName": "[concat(parameters('environment_name'), '-db-pip')]",
+        "vmDbIpConfigName": "[concat(parameters('environment_name'), '-db-ipconfig')]",
+        "vmDbDataDiskName": "[concat(parameters('environment_name'), '-db-datadisk')]" ,
         "vmMSName": "[concat(parameters('environment_name'), '-ms')]",
         "vmMSNiName": "[concat(parameters('environment_name'), '-ms-ni')]",
-        "vmMSPIPName": "[concat(parameters('environment_name'), '-db-pip')]",
+        "vmMSPIPName": "[concat(parameters('environment_name'), '-ms-pip')]",
+        "vmMSIpConfigName": "[concat(parameters('environment_name'), '-ms-ipconfig')]",
+        "vmMSDataDiskName": "[concat(parameters('environment_name'), '-ms-datadisk')]",
+        "servicePlanName": "[concat(parameters('environment_name'),'-splan')]",
         "vnetName": "[concat(parameters('environment_name'), '-vnet')]",
+        "vnetGatewayName": "[concat(parameters('environment_name'), '-vnetGateway')]",
+        "vnetGatewayPIPName": "[concat(parameters('environment_name'), '-vnetGateway-pip')]",
         "subnetName": "backend",
+        "gatewaySubnetName": "GatewaySubnet",
         "storageAccountName": "[concat(replace(parameters('environment_name'), '-', ''), 'storage')]",
         "nsgName": "[concat(parameters('environment_name'), '-nsg')]"
     },
     "resources": [
         {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Compute/virtualMachines/ndvoracledb'.",
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2016-09-01",
+            "name":"[variables('servicePlanName')]",
+            "location": "[resourceGroup().location]",
+            "properties":{
+                "name":"[variables('servicePlanName')]"
+            },
+            "sku":{
+                "name": "S1"
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "name": "[variables('vnetGatewayPIPName')]",
+            "apiVersion": "2018-02-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
+            }
+        },
+        {
+            "apiVersion": "2017-10-01",
+            "type": "Microsoft.Network/virtualNetworkGateways",
+            "name": "[variables('vnetGatewayName')]",
+            "location": "[resourceGroup().location]",
+            "properties":{
+                "ipConfigurations": [
+                    {
+                      "properties": {
+                        "subnet": {
+                          "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('gatewaySubnetName'))]"
+                        },
+                        "publicIPAddress": {
+                          "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('vnetGatewayPIPName'))]"
+                        }
+                      },
+                      "name": "[concat(variables('vnetGatewayName'), '-ipcfg')]"
+                    }
+                  ],
+                "vpnType": "RouteBased",
+                "vpnClientConfiguration":
+                {
+                    "vpnClientAddressPool":
+                    {
+                        "addressPrefixes":
+                        [
+                            "172.255.1.0/24"
+                        ]
+                    }
+                }
+                              
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', variables('vnetGatewayPIPName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+            ]
+        },
+        {
             "type": "Microsoft.Compute/virtualMachines",
             "name": "[variables('vmDbName')]",
             "apiVersion": "2017-12-01",
-            "location": "westeurope",
-            "scale": null,
+            "location": "[resourceGroup().location]",
             "properties": {
                 "hardwareProfile": {
                     "vmSize": "Standard_D2s_v3"
@@ -52,7 +123,17 @@
                         },
                         "diskSizeGB": 50
                     },
-                    "dataDisks": []
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "[concat(variables('vmDbDataDiskName'), '-0')]",
+                            "createOption":"Empty",
+                            "diskSizeGB": 128,
+                            "managedDisk":{
+                                "storageAccountType":"Premium_LRS"
+                            }
+                        }
+                    ]
                 },
                 "osProfile": {
                     "computerName": "[variables('vmDbName')]",
@@ -63,12 +144,11 @@
                             "publicKeys": [
                                 {
                                     "path": "/home/adminndv/.ssh/authorized_keys",
-                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF2zHOPao9zTkG4cEWr+7KFUUUJWURIU+Xgev0TwCvViR/CQHG0R+1dtkJBjPRDHX9A/9I5jweKlDKJErWQ5io3+0UQY9xNmTcsSd7sQOo1GDqdlm9zWJpG7zkipPYCH07XKLr1jHOqwXdV5zkPrNM8pjmlV8tVaJfK8dxvKC7JZHvYwqHx2hltezFWtH0f3jt5/HW7cMdjh1Nf891QcKYntwEU27bdOjYki4/1tA4xN1el5wRgo0D/UWOG5ojIMIOpL4KHe8qgyZnp1mwvXRFpmvalYiYutopEKLx7wMG5stASEdVfLJa0P1K/PjcM73I4vTzn60Q6nwlhdNQDp8V"
+                                    "keyData": "[parameters('ssh_key')]"
                                 }
                             ]
                         }
-                    },
-                    "secrets": []
+                    }
                 },
                 "networkProfile": {
                     "networkInterfaces": [
@@ -90,16 +170,14 @@
             ]
         },
         {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/networkInterfaces/ndvoracledb132'.",
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[variables('vmDbNiName')]",
             "apiVersion": "2018-02-01",
-            "location": "westeurope",
-            "scale": null,
+            "location": "[resourceGroup().location]",
             "properties": {
                 "ipConfigurations": [
                     {
-                        "name": "ipconfig1",
+                        "name": "[variables('vmDbIpConfigName')]",
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
@@ -115,164 +193,20 @@
                 ],
                 "enableAcceleratedNetworking": false,
                 "enableIPForwarding": false,
-                "networkSecurityGroup": {
-                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
-                },
                 "primary": true
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmDbPIPName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('subnetName'))]",
-                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
             ]
         },
         {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/networkSecurityGroups/ndvoracledb-nsg'.",
             "type": "Microsoft.Network/networkSecurityGroups",
             "name": "[variables('nsgName')]",
             "apiVersion": "2018-02-01",
-            "location": "westeurope",
-            "scale": null,
-            "properties": {
-                "securityRules": [
-                    {
-                        "name": "default-allow-ssh",
-                        "properties": {
-                            "protocol": "Tcp",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "22",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Allow",
-                            "priority": 1000,
-                            "direction": "Inbound",
-                            "sourcePortRanges": [],
-                            "destinationPortRanges": [],
-                            "sourceAddressPrefixes": [],
-                            "destinationAddressPrefixes": []
-                        }
-                    }
-                ],
-                "defaultSecurityRules": [
-                    {
-                        "name": "AllowVnetInBound",
-                        "properties": {
-                            "description": "Allow inbound traffic from all VMs in VNET",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "VirtualNetwork",
-                            "destinationAddressPrefix": "VirtualNetwork",
-                            "access": "Allow",
-                            "priority": 65000,
-                            "direction": "Inbound",
-                            "sourcePortRanges": [],
-                            "destinationPortRanges": [],
-                            "sourceAddressPrefixes": [],
-                            "destinationAddressPrefixes": []
-                        }
-                    },
-                    {
-                        "name": "AllowAzureLoadBalancerInBound",
-                        "properties": {
-                            "provisioningState": "Succeeded",
-                            "description": "Allow inbound traffic from azure load balancer",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "AzureLoadBalancer",
-                            "destinationAddressPrefix": "*",
-                            "access": "Allow",
-                            "priority": 65001,
-                            "direction": "Inbound",
-                            "sourcePortRanges": [],
-                            "destinationPortRanges": [],
-                            "sourceAddressPrefixes": [],
-                            "destinationAddressPrefixes": []
-                        }
-                    },
-                    {
-                        "name": "DenyAllInBound",
-                        "properties": {
-                            "provisioningState": "Succeeded",
-                            "description": "Deny all inbound traffic",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Deny",
-                            "priority": 65500,
-                            "direction": "Inbound",
-                            "sourcePortRanges": [],
-                            "destinationPortRanges": [],
-                            "sourceAddressPrefixes": [],
-                            "destinationAddressPrefixes": []
-                        }
-                    },
-                    {
-                        "name": "AllowVnetOutBound",
-                        "properties": {
-                            "provisioningState": "Succeeded",
-                            "description": "Allow outbound traffic from all VMs to all VMs in VNET",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "VirtualNetwork",
-                            "destinationAddressPrefix": "VirtualNetwork",
-                            "access": "Allow",
-                            "priority": 65000,
-                            "direction": "Outbound",
-                            "sourcePortRanges": [],
-                            "destinationPortRanges": [],
-                            "sourceAddressPrefixes": [],
-                            "destinationAddressPrefixes": []
-                        }
-                    },
-                    {
-                        "name": "AllowInternetOutBound",
-                        "properties": {
-                            "provisioningState": "Succeeded",
-                            "description": "Allow outbound traffic from all VMs to Internet",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "Internet",
-                            "access": "Allow",
-                            "priority": 65001,
-                            "direction": "Outbound",
-                            "sourcePortRanges": [],
-                            "destinationPortRanges": [],
-                            "sourceAddressPrefixes": [],
-                            "destinationAddressPrefixes": []
-                        }
-                    },
-                    {
-                        "name": "DenyAllOutBound",
-                        "properties": {
-                            "provisioningState": "Succeeded",
-                            "description": "Deny all outbound traffic",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Deny",
-                            "priority": 65500,
-                            "direction": "Outbound",
-                            "sourcePortRanges": [],
-                            "destinationPortRanges": [],
-                            "sourceAddressPrefixes": [],
-                            "destinationAddressPrefixes": []
-                        }
-                    }
-                ]
-            },
-            "dependsOn": []
+            "location": "[resourceGroup().location]"
         },
         {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/publicIPAddresses/ndvoracledb-ip'.",
             "type": "Microsoft.Network/publicIPAddresses",
             "sku": {
                 "name": "Basic",
@@ -280,37 +214,167 @@
             },
             "name": "[variables('vmDbPIPName')]",
             "apiVersion": "2018-02-01",
-            "location": "westeurope",
-            "scale": null,
+            "location": "[resourceGroup().location]",
             "properties": {
                 "publicIPAddressVersion": "IPv4",
                 "publicIPAllocationMethod": "Dynamic",
                 "idleTimeoutInMinutes": 4,
                 "ipTags": []
-            },
-            "dependsOn": []
+            }
         },
         {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/virtualNetworks/ndvworkshop-vnet'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[variables('vmMSName')]",
+            "apiVersion": "2017-12-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D2s_v3"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Oracle",
+                        "offer": "Oracle-Linux",
+                        "sku": "7.4",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(variables('vmMSName'),'_OsDisk')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk":{
+                         "storageAccountType":"Premium_LRS"       
+                        },
+                        "diskSizeGB": 50
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "[concat(variables('vmMSDataDiskName'), '-0')]",
+                            "createOption":"Empty",
+                            "diskSizeGB": 128,
+                            "managedDisk":{
+                                "storageAccountType":"Premium_LRS"
+                            }
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[variables('vmMSName')]",
+                    "adminUsername": "adminndv",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "path": "/home/adminndv/.ssh/authorized_keys",
+                                    "keyData": "[parameters('ssh_key')]"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('vmMSNiName'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[concat('https', '://', variables('storageAccountName'), '.blob.core.windows.net', '/')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', variables('vmMSNiName'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[variables('vmMSNiName')]",
+            "apiVersion": "2018-02-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "[variables('vmMSIpConfigName')]",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmMSPIPName'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('subnetName'))]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false,
+                "primary": true
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmMSPIPName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "name": "[variables('vmMSPIPName')]",
+            "apiVersion": "2018-02-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
+            }
+        },
+        {
             "type": "Microsoft.Network/virtualNetworks",
             "name": "[variables('vnetName')]",
             "apiVersion": "2018-02-01",
-            "location": "westeurope",
-            "scale": null,
+            "location": "[resourceGroup().location]",
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "10.1.1.0/24"
+                        "10.1.0.0/16"
                     ]
                 },
-                "virtualNetworkPeerings": [],
-                "enableDdosProtection": false,
-                "enableVmProtection": false
+                "subnets":[
+                    {
+                        "name": "[variables('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "10.1.0.0/24",
+                            "networkSecurityGroup":{
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+                            }
+                        }
+                    },
+                    {
+                        "name": "[variables('gatewaySubnetName')]",
+                        "properties": {
+                            "addressPrefix": "10.1.1.0/24"
+                        }
+                    }
+                ]
             },
-            "dependsOn": []
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+            ]
         },
         {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Storage/storageAccounts/ndvworkshopdiag805'.",
             "type": "Microsoft.Storage/storageAccounts",
             "sku": {
                 "name": "Standard_LRS",
@@ -319,69 +383,7 @@
             "kind": "Storage",
             "name": "[variables('storageAccountName')]",
             "apiVersion": "2017-10-01",
-            "location": "westeurope",
-            "tags": {},
-            "scale": null,
-            "properties": {
-                "networkAcls": {
-                    "bypass": "AzureServices",
-                    "virtualNetworkRules": [],
-                    "ipRules": [],
-                    "defaultAction": "Allow"
-                },
-                "supportsHttpsTrafficOnly": false,
-                "encryption": {
-                    "services": {
-                        "file": {
-                            "enabled": true
-                        },
-                        "blob": {
-                            "enabled": true
-                        }
-                    },
-                    "keySource": "Microsoft.Storage"
-                }
-            },
-            "dependsOn": []
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/networkSecurityGroups/ndvoracledb-nsg/securityRules/default-allow-ssh'.",
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "name": "[concat(variables('nsgName'), '/', parameters('securityRules_default_allow_ssh_name'))]",
-            "apiVersion": "2018-02-01",
-            "scale": null,
-            "properties": {
-                "provisioningState": "Succeeded",
-                "protocol": "TCP",
-                "sourcePortRange": "*",
-                "destinationPortRange": "22",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 1000,
-                "direction": "Inbound",
-                "sourcePortRanges": [],
-                "destinationPortRanges": [],
-                "sourceAddressPrefixes": [],
-                "destinationAddressPrefixes": []
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
-            ]
-        },
-        {
-            "comments": "Generalized from resource: '/subscriptions/367da43e-4efa-48b4-b73a-ee461fd57f6b/resourceGroups/ndvworkshop/providers/Microsoft.Network/virtualNetworks/ndvworkshop-vnet/subnets/default'.",
-            "type": "Microsoft.Network/virtualNetworks/subnets",
-            "name": "[concat(variables('vnetName'), '/', variables('subnetName'))]",
-            "apiVersion": "2018-02-01",
-            "scale": null,
-            "properties": {
-                "provisioningState": "Succeeded",
-                "addressPrefix": "10.1.1.0/25"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
-            ]
+            "location": "[resourceGroup().location]"
         }
     ]
 }
