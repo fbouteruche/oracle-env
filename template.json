@@ -12,6 +12,7 @@
         }
     },
     "variables": {
+        "environment_name_lower": "[toLower(parameters('environment_name'))]",
         "vmDbName": "[concat(parameters('environment_name'), '-db')]",
         "vmDbNiName": "[concat(parameters('environment_name'), '-db-ni')]",
         "vmDbPIPName": "[concat(parameters('environment_name'), '-db-pip')]",
@@ -28,7 +29,7 @@
         "vnetGatewayPIPName": "[concat(parameters('environment_name'), '-vnetGateway-pip')]",
         "subnetName": "backend",
         "gatewaySubnetName": "GatewaySubnet",
-        "storageAccountName": "[concat(replace(parameters('environment_name'), '-', ''), 'storage')]",
+        "storageAccountName": "[toLower(concat(replace(variables('environment_name_lower'), '-', ''), 'storage'))]",
         "nsgName": "[concat(parameters('environment_name'), '-nsg')]"
     },
     "resources": [
