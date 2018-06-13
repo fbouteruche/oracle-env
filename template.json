@@ -52,6 +52,12 @@
             "name":"[variables('webAppName')]",
             "type": "Microsoft.Web/sites",
             "location":"[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms',variables('servicePlanName'))]"
+            ],
+            "properties":{
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms',variables('servicePlanName'))]"
+            },
             "resources":
             [
                 {
@@ -64,7 +70,8 @@
                     },
                     "dependsOn": [
                         "[resourceId('Microsoft.Web/sites', variables('webAppName'))]",
-                        "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+                        "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworkGateways', variables('vnetGatewayName'))]"
                     ]
                 }
             ]
@@ -114,8 +121,7 @@
                             "172.255.1.0/24"
                         ]
                     }
-                }
-                              
+                }               
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('vnetGatewayPIPName'))]",
