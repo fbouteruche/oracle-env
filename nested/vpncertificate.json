@@ -40,6 +40,12 @@
                       "name": "[parameters('ipConfigName')]"
                     }
                   ],
+                "sku": {
+                "name": "VpnGw1",
+                "tier": "VpnGw1",
+                "capacity": 2
+                },
+                "gatewayType": "Vpn",
                 "vpnType": "RouteBased",
                 "vpnClientConfiguration":
                 {

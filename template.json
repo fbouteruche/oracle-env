@@ -110,6 +110,12 @@
                       "name": "[concat(variables('vnetGatewayName'), '-ipcfg')]"
                     }
                   ],
+                "sku": {
+                "name": "VpnGw1",
+                "tier": "VpnGw1",
+                "capacity": 2
+                },
+                "gatewayType": "Vpn",
                 "vpnType": "RouteBased",
                 "vpnClientConfiguration":
                 {
