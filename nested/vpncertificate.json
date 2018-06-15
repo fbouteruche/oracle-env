@@ -40,8 +40,16 @@
                       "name": "[parameters('ipConfigName')]"
                     }
                   ],
+                "vpnType": "RouteBased",
                 "vpnClientConfiguration":
                 {
+                    "vpnClientAddressPool":
+                    {
+                        "addressPrefixes":
+                        [
+                            "172.255.1.0/24"
+                        ]
+                    },
                     "vpnClientRootCertificates":
                     [
                         {
