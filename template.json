@@ -141,10 +141,10 @@
                         "value": "[reference(resourceId('Microsoft.Web/sites/virtualNetworkConnections',variables('webAppName'), variables('vnetConnectionName'))).certBlob]"
                     },
                     "subnetId": {
-                        "value": "[reference(resourceId('Microsoft.Network/virtualNetworkGateways', variables('vnetGatewayName'))).ipConfigurations[0].subnet.id]"
+                        "value": "[reference(resourceId('Microsoft.Network/virtualNetworkGateways', variables('vnetGatewayName'))).ipConfigurations[0].properties.subnet.id]"
                     },
                     "pIp": {
-                        "value": "[reference(resourceId('Microsoft.Network/virtualNetworkGateways', variables('vnetGatewayName'))).ipConfigurations[0].publicIPAddress.id]"
+                        "value": "[reference(resourceId('Microsoft.Network/virtualNetworkGateways', variables('vnetGatewayName'))).ipConfigurations[0].properties.publicIPAddress.id]"
                     },
                     "ipConfigName": {
                         "value": "[reference(resourceId('Microsoft.Network/virtualNetworkGateways', variables('vnetGatewayName'))).ipConfigurations[0].name]"

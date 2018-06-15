@@ -42,8 +42,7 @@
                   ],
                 "vpnClientConfiguration":
                 {
-                    
-                    "vpnClientRootCertificate":
+                    "vpnClientRootCertificates":
                     [
                         {
                             "name":"AppServiceCertificate.cer",
