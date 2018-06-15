@@ -9,6 +9,15 @@
         "publicCertData": {
             "defaultValue": "",
             "type": "string"
+        },
+        "subnetId": {
+            "type": "string"
+        },
+        "pIp": {
+            "type": "string"
+        },
+        "ipConfigName": {
+            "type": "string"
         }
     },
     "resources": [
@@ -18,8 +27,22 @@
             "name": "[parameters('vnetGatewayName')]",
             "location": "[resourceGroup().location]",
             "properties":{
+                "ipConfigurations": [
+                    {
+                      "properties": {
+                        "subnet": {
+                          "id": "[parameters('subnetId')]"
+                        },
+                        "publicIPAddress": {
+                          "id": "[parameters('pIp')]"
+                        }
+                      },
+                      "name": "[parameters('ipConfigName')]"
+                    }
+                  ],
                 "vpnClientConfiguration":
                 {
+                    
                     "vpnClientRootCertificate":
                     [
                         {
