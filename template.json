@@ -70,8 +70,7 @@
                     },
                     "dependsOn": [
                         "[resourceId('Microsoft.Web/sites', variables('webAppName'))]",
-                        "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]",
-                        "[resourceId('Microsoft.Network/virtualNetworkGateways', variables('vnetGatewayName'))]"
+                        "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
                     ]
                 }
             ]
@@ -120,12 +119,44 @@
                         [
                             "172.255.1.0/24"
                         ]
-                    }
-                }               
+                    },
+                    "vpnClientRootCertificate":
+                    [
+                        {
+                            "name":"",
+                            "properties":
+                            {
+                                "publicCertData":"[reference(resourceId('Microsoft.Web/sites/virtualNetworkConnections',variables('webAppName'), variables('vnetConnectionName'))).certBlob]"
+                            }
+                        }
+                    ]
+                }        
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('vnetGatewayPIPName'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "name": "vpnCertificateTemplate",
+            "properties": {
+                "mode": "Incremental",
+                "parameters": {
+                    "vnetGatewayName": {
+                        "value": "[variables('vnetGatewayName')]"
+                    },
+                    "publicCertData": {
+                        "value": "[reference(resourceId('Microsoft.Web/sites/virtualNetworkConnections',variables('webAppName'), variables('vnetConnectionName'))).certBlob]"
+                    }
+                },
+                "templateLink": {
+                    "uri": ""
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/virtualNetworkConnections',variables('webAppName'), variables('vnetConnectionName'))]"
             ]
         },
         {
