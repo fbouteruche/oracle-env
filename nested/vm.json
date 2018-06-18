@@ -137,8 +137,7 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Network/networkInterfaces', variables('vmNiName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+                "[resourceId('Microsoft.Network/networkInterfaces', variables('vmNiName'))]"
             ]
         }
     ]
