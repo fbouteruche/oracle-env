@@ -9,7 +9,7 @@
         "vnetName": {
             "type": "string"
         },
-        "gatewaySubnetName": {
+        "gatewaySubnetNameId": {
             "type": "string"
         }
     },
@@ -44,7 +44,7 @@
                     {
                       "properties": {
                         "subnet": {
-                          "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('gatewaySubnetName'))]"
+                          "id": "[parameters('gatewaySubnetNameId')]"
                         },
                         "publicIPAddress": {
                           "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('vnetGatewayPIPName'))]"

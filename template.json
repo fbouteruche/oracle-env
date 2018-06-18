@@ -133,8 +133,8 @@
                     "vnetName": {
                         "value": "[variables('vnetName')]"
                     },
-                    "gatewaySubnetName": {
-                        "value": "[variables('gatewaySubnetName')]"
+                    "gatewaySubnetNameId": {
+                        "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('gatewaySubnetName'))]"
                     }
                 },
                 "templateLink": {
@@ -142,7 +142,7 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('gatewaySubnetName'))]"
             ]
         },
         {
