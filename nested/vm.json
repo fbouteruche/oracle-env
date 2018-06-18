@@ -5,10 +5,7 @@
         "vmName": {
             "type": "string"
         },
-        "vnetName": {
-            "type": "string"
-        },
-        "subnetName": {
+        "subnetNameId": {
             "type": "string"
         },
         "storageAccountName": {
@@ -57,7 +54,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmPIPName'))]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]"
+                                "id": "[parameters('subnetNameId')]"
                             },
                             "primary": true,
                             "privateIPAddressVersion": "IPv4"
@@ -69,8 +66,7 @@
                 "primary": true
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmPIPName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+                "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmPIPName'))]"
             ]
         },
         {

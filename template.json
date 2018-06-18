@@ -186,11 +186,8 @@
                     "vmName": {
                         "value": "[variables('vmDbName')]"
                     },
-                    "vnetName": {
-                        "value": "[variables('vnetName')]"
-                    },
-                    "subnetName": {
-                        "value": "[variables('subnetName')]"
+                    "subnetNameId": {
+                        "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('subnetName'))]"
                     },
                     "storageAccountName": {
                         "value": "[variables('storageAccountName')]"
@@ -205,7 +202,7 @@
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('subnetName'))]"
             ]
         },
         {
@@ -218,11 +215,8 @@
                     "vmName": {
                         "value": "[variables('vmMSName')]"
                     },
-                    "vnetName": {
-                        "value": "[variables('vnetName')]"
-                    },
-                    "subnetName": {
-                        "value": "[variables('subnetName')]"
+                    "subnetNameId": {
+                        "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('subnetName'))]"
                     },
                     "storageAccountName": {
                         "value": "[variables('storageAccountName')]"
@@ -237,7 +231,7 @@
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('subnetName'))]"
             ]
         }
     ]
