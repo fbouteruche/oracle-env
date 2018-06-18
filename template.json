@@ -2,6 +2,20 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "_artifactsLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
+            },
+            "defaultValue": "https://raw.githubusercontent.com/fbouteruche/oracle-env/master/"
+        },
+        "_artifactsLocationSasToken": {
+            "type": "securestring",
+            "metadata": {
+                "description": "The sasToken required to access _artifactsLocation.  When the template is deployed using the accompanying scripts, a sasToken will be automatically generated."
+            },
+            "defaultValue": ""
+        },
         "environment_name": {
             "defaultValue": "oracle-env",
             "type": "string"
@@ -12,6 +26,7 @@
         }
     },
     "variables": {
+        "baseTemplateUrl": "[concat(parameters('_artifactsLocation'), 'nested/')]",
         "environment_name_lower": "[toLower(parameters('environment_name'))]",
         "vmDbName": "[concat(parameters('environment_name'), '-db')]",
         "vmMSName": "[concat(parameters('environment_name'), '-ms')]",
@@ -138,7 +153,7 @@
                     }
                 },
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/fbouteruche/oracle-env/master/nested/vpngateway.json"
+                    "uri": "[concat(variables('baseTemplateUrl'), 'vpngateway.json', parameters('_artifactsLocationSasToken'))]"
                 }
             },
             "dependsOn": [
@@ -161,15 +176,15 @@
                     "subnetId": {
                         "value": "[reference('vpngateway').outputs.subnetId.value]"
                     },
-                    "pIp": {
-                        "value": "[reference('vpngateway').outputs.pIp.value]"
+                    "pIpId": {
+                        "value": "[reference('vpngateway').outputs.pIpId.value]"
                     },
                     "ipConfigName": {
                         "value": "[reference('vpngateway').outputs.ipConfigName.value]"
                     }
                 },
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/fbouteruche/oracle-env/master/nested/vpncertificate.json"
+                    "uri": "[concat(variables('baseTemplateUrl'), 'vpncertificate.json', parameters('_artifactsLocationSasToken'))]"
                 }
             },
             "dependsOn": [
@@ -197,7 +212,7 @@
                     }
                 },
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/fbouteruche/oracle-env/master/nested/vm.json"
+                    "uri": "[concat(variables('baseTemplateUrl'), 'vm.json', parameters('_artifactsLocationSasToken'))]"
                 }
             },
             "dependsOn": [
@@ -226,7 +241,7 @@
                     }
                 },
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/fbouteruche/oracle-env/master/nested/vm.json"
+                    "uri": "[concat(variables('baseTemplateUrl'), 'vm.json', parameters('_artifactsLocationSasToken'))]"
                 }
             },
             "dependsOn": [

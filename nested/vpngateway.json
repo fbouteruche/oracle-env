@@ -80,7 +80,7 @@
             "type": "string",
             "value": "[reference(resourceId('Microsoft.Network/virtualNetworkGateways', variables('vnetGatewayName'))).ipConfigurations[0].properties.subnet.id]"
         },
-        "pIp": {
+        "pIpId": {
             "type": "string",
             "value": "[reference(resourceId('Microsoft.Network/virtualNetworkGateways', variables('vnetGatewayName'))).ipConfigurations[0].properties.publicIPAddress.id]"
         },

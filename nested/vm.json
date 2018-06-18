@@ -109,13 +109,13 @@
                 },
                 "osProfile": {
                     "computerName": "[parameters('vmName')]",
-                    "adminUsername": "admin",
+                    "adminUsername": "adminenv",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": true,
                         "ssh": {
                             "publicKeys": [
                                 {
-                                    "path": "/home/admin/.ssh/authorized_keys",
+                                    "path": "/home/adminenv/.ssh/authorized_keys",
                                     "keyData": "[parameters('ssh_key')]"
                                 }
                             ]

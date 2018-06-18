@@ -13,7 +13,7 @@
         "subnetId": {
             "type": "string"
         },
-        "pIp": {
+        "pIpId": {
             "type": "string"
         },
         "ipConfigName": {
@@ -34,7 +34,7 @@
                           "id": "[parameters('subnetId')]"
                         },
                         "publicIPAddress": {
-                          "id": "[parameters('pIp')]"
+                          "id": "[parameters('pIpId')]"
                         }
                       },
                       "name": "[parameters('ipConfigName')]"
