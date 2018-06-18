@@ -14,20 +14,11 @@
     "variables": {
         "environment_name_lower": "[toLower(parameters('environment_name'))]",
         "vmDbName": "[concat(parameters('environment_name'), '-db')]",
-        "vmDbNiName": "[concat(parameters('environment_name'), '-db-ni')]",
-        "vmDbPIPName": "[concat(parameters('environment_name'), '-db-pip')]",
-        "vmDbIpConfigName": "[concat(parameters('environment_name'), '-db-ipconfig')]",
-        "vmDbDataDiskName": "[concat(parameters('environment_name'), '-db-datadisk')]" ,
         "vmMSName": "[concat(parameters('environment_name'), '-ms')]",
-        "vmMSNiName": "[concat(parameters('environment_name'), '-ms-ni')]",
-        "vmMSPIPName": "[concat(parameters('environment_name'), '-ms-pip')]",
-        "vmMSIpConfigName": "[concat(parameters('environment_name'), '-ms-ipconfig')]",
-        "vmMSDataDiskName": "[concat(parameters('environment_name'), '-ms-datadisk')]",
         "servicePlanName": "[concat(parameters('environment_name'),'-splan')]",
         "webAppName": "[concat(parameters('environment_name'),'-webApp')]",
         "vnetName": "[concat(parameters('environment_name'), '-vnet')]",
         "vnetGatewayName": "[concat(parameters('environment_name'), '-vnetGateway')]",
-        "vnetGatewayPIPName": "[concat(parameters('environment_name'), '-vnetGateway-pip')]",
         "vnetConnectionName": "[concat(parameters('environment_name'), '-connectionName')]",
         "subnetName": "backend",
         "gatewaySubnetName": "GatewaySubnet",
@@ -36,381 +27,28 @@
     },
     "resources": [
         {
-            "type": "Microsoft.Web/serverfarms",
-            "apiVersion": "2016-09-01",
-            "name":"[variables('servicePlanName')]",
-            "location": "[resourceGroup().location]",
-            "properties":{
-                "name":"[variables('servicePlanName')]"
-            },
-            "sku":{
-                "name": "S1"
-            }
-        },
-        {
-            "apiVersion": "2016-08-01",
-            "name":"[variables('webAppName')]",
-            "type": "Microsoft.Web/sites",
-            "location":"[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms',variables('servicePlanName'))]"
-            ],
-            "properties":{
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms',variables('servicePlanName'))]"
-            },
-            "resources":
-            [
-                {
-                    "apiVersion": "2016-08-01",
-                    "name": "[variables('vnetConnectionName')]",
-                    "type": "virtualNetworkConnections",
-                    "location":"[resourceGroup().location]",
-                    "properties":{
-                        "vnetResourceId": "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
-                    },
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/sites', variables('webAppName'))]",
-                        "[resourceId('Microsoft.Network/virtualNetworkGateways', variables('vnetGatewayName'))]"
-                    ]
-                }
-            ]
-        },
-        {
-            "type": "Microsoft.Network/publicIPAddresses",
-            "sku": {
-                "name": "Basic",
-                "tier": "Regional"
-            },
-            "name": "[variables('vnetGatewayPIPName')]",
-            "apiVersion": "2018-02-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "publicIPAddressVersion": "IPv4",
-                "publicIPAllocationMethod": "Dynamic",
-                "idleTimeoutInMinutes": 4,
-                "ipTags": []
-            }
-        },
-        {
             "apiVersion": "2017-10-01",
-            "type": "Microsoft.Network/virtualNetworkGateways",
-            "name": "[variables('vnetGatewayName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[variables('storageAccountName')]",
+            
             "location": "[resourceGroup().location]",
-            "properties":{
-                "ipConfigurations": [
-                    {
-                      "properties": {
-                        "subnet": {
-                          "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('gatewaySubnetName'))]"
-                        },
-                        "publicIPAddress": {
-                          "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('vnetGatewayPIPName'))]"
-                        }
-                      },
-                      "name": "[concat(variables('vnetGatewayName'), '-ipcfg')]"
-                    }
-                  ],
-                "sku": {
-                "name": "VpnGw1",
-                "tier": "VpnGw1",
-                "capacity": 2
-                },
-                "vpnType": "RouteBased",
-                "vpnClientConfiguration":
-                {
-                    "vpnClientAddressPool":
-                    {
-                        "addressPrefixes":
-                        [
-                            "172.255.1.0/24"
-                        ]
-                    }
-                }        
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
             },
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/publicIPAddresses', variables('vnetGatewayPIPName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
-            ]
+            "kind": "StorageV2"
+            
         },
         {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2017-05-10",
-            "name": "vpnCertificateTemplate",
-            "properties": {
-                "mode": "Incremental",
-                "parameters": {
-                    "vnetGatewayName": {
-                        "value": "[variables('vnetGatewayName')]"
-                    },
-                    "publicCertData": {
-                        "value": "[reference(resourceId('Microsoft.Web/sites/virtualNetworkConnections',variables('webAppName'), variables('vnetConnectionName'))).certBlob]"
-                    },
-                    "subnetId": {
-                        "value": "[reference(resourceId('Microsoft.Network/virtualNetworkGateways', variables('vnetGatewayName'))).ipConfigurations[0].properties.subnet.id]"
-                    },
-                    "pIp": {
-                        "value": "[reference(resourceId('Microsoft.Network/virtualNetworkGateways', variables('vnetGatewayName'))).ipConfigurations[0].properties.publicIPAddress.id]"
-                    },
-                    "ipConfigName": {
-                        "value": "[reference(resourceId('Microsoft.Network/virtualNetworkGateways', variables('vnetGatewayName'))).ipConfigurations[0].name]"
-                    }
-                },
-                "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/fbouteruche/oracle-env/master/nested/vpncertificate.json"
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites/virtualNetworkConnections',variables('webAppName'), variables('vnetConnectionName'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Compute/virtualMachines",
-            "name": "[variables('vmDbName')]",
-            "apiVersion": "2017-12-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "hardwareProfile": {
-                    "vmSize": "Standard_D2s_v3"
-                },
-                "storageProfile": {
-                    "imageReference": {
-                        "publisher": "Oracle",
-                        "offer": "Oracle-Database-Ee",
-                        "sku": "12.1.0.2",
-                        "version": "latest"
-                    },
-                    "osDisk": {
-                        "osType": "Linux",
-                        "name": "[concat(variables('vmDbName'),'_OsDisk')]",
-                        "createOption": "FromImage",
-                        "caching": "ReadWrite",
-                        "managedDisk":{
-                         "storageAccountType":"Premium_LRS"       
-                        },
-                        "diskSizeGB": 50
-                    },
-                    "dataDisks": [
-                        {
-                            "lun": 0,
-                            "name": "[concat(variables('vmDbDataDiskName'), '-0')]",
-                            "createOption":"Empty",
-                            "diskSizeGB": 128,
-                            "managedDisk":{
-                                "storageAccountType":"Premium_LRS"
-                            }
-                        }
-                    ]
-                },
-                "osProfile": {
-                    "computerName": "[variables('vmDbName')]",
-                    "adminUsername": "adminndv",
-                    "linuxConfiguration": {
-                        "disablePasswordAuthentication": true,
-                        "ssh": {
-                            "publicKeys": [
-                                {
-                                    "path": "/home/adminndv/.ssh/authorized_keys",
-                                    "keyData": "[parameters('ssh_key')]"
-                                }
-                            ]
-                        }
-                    }
-                },
-                "networkProfile": {
-                    "networkInterfaces": [
-                        {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('vmDbNiName'))]"
-                        }
-                    ]
-                },
-                "diagnosticsProfile": {
-                    "bootDiagnostics": {
-                        "enabled": true,
-                        "storageUri": "[concat('https', '://', variables('storageAccountName'), '.blob.core.windows.net', '/')]"
-                    }
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/networkInterfaces', variables('vmDbNiName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Network/networkInterfaces",
-            "name": "[variables('vmDbNiName')]",
             "apiVersion": "2018-02-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "ipConfigurations": [
-                    {
-                        "name": "[variables('vmDbIpConfigName')]",
-                        "properties": {
-                            "privateIPAllocationMethod": "Dynamic",
-                            "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmDbPIPName'))]"
-                            },
-                            "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('subnetName'))]"
-                            },
-                            "primary": true,
-                            "privateIPAddressVersion": "IPv4"
-                        }
-                    }
-                ],
-                "enableAcceleratedNetworking": false,
-                "enableIPForwarding": false,
-                "primary": true
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmDbPIPName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
-            ]
-        },
-        {
             "type": "Microsoft.Network/networkSecurityGroups",
             "name": "[variables('nsgName')]",
-            "apiVersion": "2018-02-01",
             "location": "[resourceGroup().location]"
         },
         {
-            "type": "Microsoft.Network/publicIPAddresses",
-            "sku": {
-                "name": "Basic",
-                "tier": "Regional"
-            },
-            "name": "[variables('vmDbPIPName')]",
             "apiVersion": "2018-02-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "publicIPAddressVersion": "IPv4",
-                "publicIPAllocationMethod": "Dynamic",
-                "idleTimeoutInMinutes": 4,
-                "ipTags": []
-            }
-        },
-        {
-            "type": "Microsoft.Compute/virtualMachines",
-            "name": "[variables('vmMSName')]",
-            "apiVersion": "2017-12-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "hardwareProfile": {
-                    "vmSize": "Standard_D2s_v3"
-                },
-                "storageProfile": {
-                    "imageReference": {
-                        "publisher": "Oracle",
-                        "offer": "Oracle-Linux",
-                        "sku": "7.4",
-                        "version": "latest"
-                    },
-                    "osDisk": {
-                        "osType": "Linux",
-                        "name": "[concat(variables('vmMSName'),'_OsDisk')]",
-                        "createOption": "FromImage",
-                        "caching": "ReadWrite",
-                        "managedDisk":{
-                         "storageAccountType":"Premium_LRS"       
-                        },
-                        "diskSizeGB": 50
-                    },
-                    "dataDisks": [
-                        {
-                            "lun": 0,
-                            "name": "[concat(variables('vmMSDataDiskName'), '-0')]",
-                            "createOption":"Empty",
-                            "diskSizeGB": 128,
-                            "managedDisk":{
-                                "storageAccountType":"Premium_LRS"
-                            }
-                        }
-                    ]
-                },
-                "osProfile": {
-                    "computerName": "[variables('vmMSName')]",
-                    "adminUsername": "adminndv",
-                    "linuxConfiguration": {
-                        "disablePasswordAuthentication": true,
-                        "ssh": {
-                            "publicKeys": [
-                                {
-                                    "path": "/home/adminndv/.ssh/authorized_keys",
-                                    "keyData": "[parameters('ssh_key')]"
-                                }
-                            ]
-                        }
-                    }
-                },
-                "networkProfile": {
-                    "networkInterfaces": [
-                        {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('vmMSNiName'))]"
-                        }
-                    ]
-                },
-                "diagnosticsProfile": {
-                    "bootDiagnostics": {
-                        "enabled": true,
-                        "storageUri": "[concat('https', '://', variables('storageAccountName'), '.blob.core.windows.net', '/')]"
-                    }
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/networkInterfaces', variables('vmMSNiName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Network/networkInterfaces",
-            "name": "[variables('vmMSNiName')]",
-            "apiVersion": "2018-02-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "ipConfigurations": [
-                    {
-                        "name": "[variables('vmMSIpConfigName')]",
-                        "properties": {
-                            "privateIPAllocationMethod": "Dynamic",
-                            "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmMSPIPName'))]"
-                            },
-                            "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('subnetName'))]"
-                            },
-                            "primary": true,
-                            "privateIPAddressVersion": "IPv4"
-                        }
-                    }
-                ],
-                "enableAcceleratedNetworking": false,
-                "enableIPForwarding": false,
-                "primary": true
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/publicIPAddresses', variables('vmMSPIPName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Network/publicIPAddresses",
-            "sku": {
-                "name": "Basic",
-                "tier": "Regional"
-            },
-            "name": "[variables('vmMSPIPName')]",
-            "apiVersion": "2018-02-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "publicIPAddressVersion": "IPv4",
-                "publicIPAllocationMethod": "Dynamic",
-                "idleTimeoutInMinutes": 4,
-                "ipTags": []
-            }
-        },
-        {
             "type": "Microsoft.Network/virtualNetworks",
             "name": "[variables('vnetName')]",
-            "apiVersion": "2018-02-01",
             "location": "[resourceGroup().location]",
             "properties": {
                 "addressSpace": {
@@ -441,15 +79,166 @@
             ]
         },
         {
-            "type": "Microsoft.Storage/storageAccounts",
-            "sku": {
-                "name": "Standard_LRS",
-                "tier": "Standard"
+            "comments": "The App Service Plan where the Web App will be deployed. As we use VNET integration, the SKU must be S1 or greater",
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2016-09-01",
+            "name":"[variables('servicePlanName')]",
+            "location": "[resourceGroup().location]",
+            "properties":{
+                "name":"[variables('servicePlanName')]"
             },
-            "kind": "Storage",
-            "name": "[variables('storageAccountName')]",
-            "apiVersion": "2017-10-01",
-            "location": "[resourceGroup().location]"
+            "sku":{
+                "name": "S1"
+            }
+        },
+        {
+            "comments": "The Web App where the application will be deployed. The VNET integration is set up by declaring a sub-resource of type virtualNetworkConnections",
+            "apiVersion": "2016-08-01",
+            "name":"[variables('webAppName')]",
+            "type": "Microsoft.Web/sites",
+            "location":"[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms',variables('servicePlanName'))]"
+            ],
+            "properties":{
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms',variables('servicePlanName'))]"
+            },
+            "resources":
+            [
+                {
+                    "apiVersion": "2016-08-01",
+                    "name": "[variables('vnetConnectionName')]",
+                    "type": "virtualNetworkConnections",
+                    "location":"[resourceGroup().location]",
+                    "properties":{
+                        "vnetResourceId": "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', variables('webAppName'))]",
+                        "Microsoft.Resources/deployments/vpngateway"
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "name": "vpngateway",
+            "properties": {
+                "mode": "Incremental",
+                "parameters": {
+                    "environment_name": {
+                        "value": "[parameters('environment_name')]"
+                    },
+                    "vnetName": {
+                        "value": "[variables('vnetName')]"
+                    },
+                    "gatewaySubnetName": {
+                        "value": "[variables('gatewaySubnetName')]"
+                    }
+                },
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/fbouteruche/oracle-env/master/nested/vpngateway.json"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "name": "vpnCertificateTemplate",
+            "properties": {
+                "mode": "Incremental",
+                "parameters": {
+                    "vnetGatewayName": {
+                        "value": "[variables('vnetGatewayName')]"
+                    },
+                    "publicCertData": {
+                        "value": "[reference(resourceId('Microsoft.Web/sites/virtualNetworkConnections',variables('webAppName'), variables('vnetConnectionName'))).certBlob]"
+                    },
+                    "subnetId": {
+                        "value": "[reference('vpngateway').outputs.subnetId.value]"
+                    },
+                    "pIp": {
+                        "value": "[reference('vpngateway').outputs.pIp.value]"
+                    },
+                    "ipConfigName": {
+                        "value": "[reference('vpngateway').outputs.ipConfigName.value]"
+                    }
+                },
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/fbouteruche/oracle-env/master/nested/vpncertificate.json"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/virtualNetworkConnections',variables('webAppName'), variables('vnetConnectionName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "name": "vmdb",
+            "properties": {
+                "mode": "Incremental",
+                "parameters": {
+                    "vmName": {
+                        "value": "[variables('vmDbName')]"
+                    },
+                    "vnetName": {
+                        "value": "[variables('vnetName')]"
+                    },
+                    "subnetName": {
+                        "value": "[variables('subnetName')]"
+                    },
+                    "storageAccountName": {
+                        "value": "[variables('storageAccountName')]"
+                    },
+                    "ssh_key": {
+                        "value": "[parameters('ssh_key')]"
+                    }
+                },
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/fbouteruche/oracle-env/master/nested/vm.json"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "name": "vmms",
+            "properties": {
+                "mode": "Incremental",
+                "parameters": {
+                    "vmName": {
+                        "value": "[variables('vmMSName')]"
+                    },
+                    "vnetName": {
+                        "value": "[variables('vnetName')]"
+                    },
+                    "subnetName": {
+                        "value": "[variables('subnetName')]"
+                    },
+                    "storageAccountName": {
+                        "value": "[variables('storageAccountName')]"
+                    },
+                    "ssh_key": {
+                        "value": "[parameters('ssh_key')]"
+                    }
+                },
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/fbouteruche/oracle-env/master/nested/vm.json"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+            ]
         }
     ]
 }
